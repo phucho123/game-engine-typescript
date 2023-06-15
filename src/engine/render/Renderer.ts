@@ -13,6 +13,9 @@ export class Renderer {
             })
         }
     }
+    public update() {
+        this.scence.update()
+    }
     public setScene(scence: Scene) {
         this.scence = scence
     }

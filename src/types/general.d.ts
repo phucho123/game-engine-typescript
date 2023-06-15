@@ -1,4 +1,4 @@
-interface Position {
+interface Vector {
     x: number
     y: number
 }

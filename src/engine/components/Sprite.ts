@@ -1,38 +1,53 @@
 import { Maths } from '../math/Maths'
 
 export class Sprite {
-    protected pos: Position
+    protected pos: Vector
     protected image: HTMLImageElement = new Image()
     protected angle: number
     protected width: number
     protected height: number
     protected scale: number
-    protected direction: Position
-    protected speed: number
+    protected direction: Vector
+    protected speed: Vector
+    protected gravity: number
     protected acceleration: number
     protected drawable = true
     protected drawOrder: number
+    protected center: Vector = { x: 0, y: 0 }
+    protected flip = false
 
-    constructor(pos: Position, src: string, drawOrder: number) {
+    constructor(pos: Vector, src: string, drawOrder: number) {
         this.pos = pos
         this.angle = 0
-        this.image.src = src
-        this.image.onload = () => {
-            if (this.width == undefined) this.width = this.image.width
-            if (this.height == undefined) this.height = this.image.height
+        if (src != '') {
+            this.image.src = src
+            this.image.onload = () => {
+                if (this.width == undefined) this.width = this.image.width
+                if (this.height == undefined) this.height = this.image.height
+            }
         }
+
         this.scale = 1
         this.direction = { x: 0, y: 0 }
-        this.speed = 0
+        this.speed = { x: 0, y: 0 }
         this.acceleration = 0
         this.drawOrder = drawOrder
+        this.gravity = 0
+        this.updateCenter()
     }
 
     public draw(ctx: CanvasRenderingContext2D | null): void {
         if (ctx && this.drawable) {
             ctx.save()
-            ctx.translate(this.pos.x, this.pos.y)
-            ctx.rotate(this.angle)
+            if (this.flip) {
+                ctx.translate(this.pos.x + this.width, this.pos.y)
+                ctx.scale(-1, 1)
+                ctx.translate(this.getWidth() / 2, this.getHeight() / 2)
+                ctx.rotate(this.angle)
+            } else {
+                ctx.translate(this.center.x, this.center.y)
+                ctx.rotate(this.angle)
+            }
             ctx.drawImage(
                 this.image,
                 (-this.width * this.scale) / 2,
@@ -40,15 +55,15 @@ export class Sprite {
                 this.width * this.scale,
                 this.height * this.scale
             )
-            ctx.beginPath()
-            ctx.strokeStyle = 'red'
-            ctx.rect(
-                (-this.width * this.scale) / 2,
-                (-this.height * this.scale) / 2,
-                this.width * this.scale,
-                this.height * this.scale
-            )
-            ctx.stroke()
+            // ctx.beginPath()
+            // ctx.strokeStyle = 'red'
+            // ctx.rect(
+            //     (-this.width * this.scale) / 2,
+            //     (-this.height * this.scale) / 2,
+            //     this.width * this.scale,
+            //     this.height * this.scale
+            // )
+            // ctx.stroke()
             ctx.restore()
         }
     }
@@ -57,7 +72,7 @@ export class Sprite {
         this.scale = scale
     }
 
-    public getPos(): Position {
+    public getPos(): Vector {
         return this.pos
     }
 
@@ -89,8 +104,12 @@ export class Sprite {
         this.direction.y = ypos / dist
     }
 
-    public setSpeed(speed: number): void {
-        this.speed = speed
+    public setSpeedX(speed: number): void {
+        this.speed.x = speed
+    }
+
+    public setSpeedY(speed: number) {
+        this.speed.y = speed
     }
 
     public setAcceleration(acceleration: number) {
@@ -114,8 +133,36 @@ export class Sprite {
     }
 
     public update(): void {
-        this.speed += this.acceleration
-        this.pos.x += this.direction.x * this.speed
-        this.pos.y += this.direction.y * this.speed
+        // this.angle = Math.min(this.angle + (this.acceleration * 2 * Math.PI) / 20, Math.PI / 3)
+        this.speed.x += this.acceleration
+        this.speed.y += this.gravity
+        this.pos.x += this.direction.x * this.speed.x
+        this.pos.y += this.direction.y * this.speed.y
+        this.updateCenter()
+    }
+
+    public setSrc(src: string): void {
+        this.image.src = src
+    }
+
+    public getCenter(): Vector {
+        return this.center
+    }
+
+    public updateCenter() {
+        this.center.x = this.pos.x + this.width / 2
+        this.center.y = this.pos.y + this.height / 2
+    }
+
+    public _flip(): void {
+        this.flip = !this.flip
+    }
+
+    public setFlip(state: boolean) {
+        this.flip = state
+    }
+
+    public setGravity(gravity: number) {
+        this.gravity = gravity
     }
 }

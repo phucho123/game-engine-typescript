@@ -1,35 +1,34 @@
-export class Text {
-    pos: Position
+import { Sprite } from './Sprite'
+
+export class Text extends Sprite {
     content: string
     font: string
     color: string
     ctx: CanvasRenderingContext2D | null
 
-    constructor(
-        pos: Position,
-        content: string,
-        font: string,
-        color: string,
-        ctx: CanvasRenderingContext2D | null
-    ) {
-        this.pos = pos
+    constructor(pos: Vector, content: string, font: string, color: string, drawOrder: number) {
+        super(pos, '', 1)
         this.content = content
         this.font = font
         this.color = color
-        this.ctx = ctx
+        this.drawOrder = drawOrder
     }
 
-    public draw(): void {
-        if (this.ctx) {
-            this.ctx.beginPath()
-            this.ctx.font = this.font
-            this.ctx.fillStyle = this.color
-            this.ctx.fillText(this.content, this.pos.x, this.pos.y)
+    public draw(ctx: CanvasRenderingContext2D | null): void {
+        if (ctx) {
+            ctx.beginPath()
+            ctx.font = this.font
+            ctx.fillStyle = this.color
+            ctx.fillText(this.content, this.pos.x, this.pos.y)
         }
     }
 
     public setPos(x: number, y: number): void {
         this.pos.x = x
         this.pos.y = y
+    }
+
+    public setContent(content: string) {
+        this.content = content
     }
 }

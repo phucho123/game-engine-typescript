@@ -5,7 +5,7 @@ export class Arc extends Shape {
     private startAngle = 0
     private endAngle = 0
 
-    constructor(pos: Position, color: string, ctx: CanvasRenderingContext2D | null) {
+    constructor(pos: Vector, color: string, ctx: CanvasRenderingContext2D | null) {
         super(pos, color, ctx)
     }
 
@@ -40,7 +40,7 @@ export class Arc extends Shape {
         }
     }
 
-    public getPos(): Position {
+    public getPos(): Vector {
         return this.pos
     }
 

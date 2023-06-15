@@ -9,7 +9,7 @@ export class Scene {
         this.spriteList = []
     }
 
-    public pushToSpriteList(sprite: Sprite | AnimationSprite | Background): void {
+    public push(sprite: Sprite | AnimationSprite | Background): void {
         let i
         for (i = this.spriteList.length - 1; i >= 0; i--) {
             if (this.spriteList[i].getOrder() <= sprite.getOrder()) {

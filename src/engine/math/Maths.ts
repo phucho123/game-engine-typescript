@@ -1,5 +1,4 @@
 import { AnimationSprite } from '../components/AnimationSprite'
-import { Rectangle } from '../components/Rectangle'
 import { Sprite } from '../components/Sprite'
 
 export class Maths {
@@ -10,12 +9,32 @@ export class Maths {
         ///
     }
 
-    public checkPointInRect(pos: Position, rect: Sprite | AnimationSprite | Rectangle) {
-        const diff_x = Math.abs(pos.x - rect.getPos().x)
-        const diff_y = Math.abs(pos.y - rect.getPos().y)
+    static checkPointInRect(x: number, y: number, rect: Sprite | AnimationSprite) {
+        const diff_x = Math.abs(x - rect.getCenter().x)
+        const diff_y = Math.abs(y - rect.getCenter().y)
 
-        if (diff_x <= rect.getWidth() && diff_y <= rect.getHeight()) return true
+        if (diff_x <= rect.getWidth() / 2 && diff_y <= rect.getHeight() / 2) return true
 
         return false
+    }
+
+    static intersects(
+        a: number,
+        b: number,
+        c: number,
+        d: number,
+        p: number,
+        q: number,
+        r: number,
+        s: number
+    ) {
+        const det = (c - a) * (s - q) - (r - p) * (d - b)
+        if (det === 0) {
+            return false
+        } else {
+            const lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det
+            const gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det
+            return 0 < lambda && lambda < 1 && 0 < gamma && gamma < 1
+        }
     }
 }

@@ -4,7 +4,7 @@ export class Rectangle extends Shape {
     private width = 0
     private height = 0
 
-    constructor(pos: Position, color: string, ctx: CanvasRenderingContext2D | null) {
+    constructor(pos: Vector, color: string, ctx: CanvasRenderingContext2D | null) {
         super(pos, color, ctx)
     }
 
@@ -42,7 +42,7 @@ export class Rectangle extends Shape {
         }
     }
 
-    public getPos(): Position {
+    public getPos(): Vector {
         return this.pos
     }
 

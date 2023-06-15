@@ -1,12 +1,11 @@
-
 export class Shape {
     protected color: string
-    protected pos: Position
+    protected pos: Vector
     protected ctx: CanvasRenderingContext2D | null
     protected scale: number
     protected angle: number
 
-    constructor(pos: Position, color: string, ctx: CanvasRenderingContext2D | null) {
+    constructor(pos: Vector, color: string, ctx: CanvasRenderingContext2D | null) {
         this.pos = pos
         this.color = color
         this.ctx = ctx
