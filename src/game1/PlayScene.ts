@@ -31,7 +31,7 @@ export class PlayScene extends Scene {
         this.scoreDisplay = new Text(
             { x: Canvas.canvas.width / 2, y: Canvas.canvas.height / 2 },
             `${GameManager.score}`,
-            '30px Arial',
+            '30px Audiowide',
             'white',
             1
         )
@@ -41,16 +41,6 @@ export class PlayScene extends Scene {
         this.push(this.scoreDisplay)
 
         this.spikeManager.createVerticalSpike()
-
-        // window.addEventListener('keydown', (e) => {
-        //     if (e.key == ' ') {
-        //         this.bird.setSpeedY(-3)
-        //     }
-        // })
-
-        // window.addEventListener('click', () => {
-        //     this.bird.setSpeedY(-3)
-        // })
     }
 
     public update() {
@@ -79,17 +69,17 @@ export class PlayScene extends Scene {
     public wakeup(): void {
         super.wakeup()
         this.restart()
-        InputHandler.keydown.set(' ', () => {
+        InputHandler.onKeydown(' ', () => {
             this.bird.setSpeedY(-3)
             console.log('hello there')
         })
-        InputHandler.click.push(() => this.bird.setSpeedY(-3))
+        InputHandler.onClick(() => this.bird.setSpeedY(-3))
     }
 
     public setSleep(): void {
         super.setSleep()
-        InputHandler.keydown.clear()
-        InputHandler.click.splice(0)
+        InputHandler.clearKeydown()
+        InputHandler.clearMouseClick()
     }
 
     public restart() {

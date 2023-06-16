@@ -48,4 +48,28 @@ export class InputHandler {
             InputHandler.mouseY = e.clientY - rect.top
         })
     }
+
+    public static onKeydown(e: string, f: () => void) {
+        InputHandler.keydown.set(e, f)
+    }
+
+    public static onKeyUp(e: string, f: () => void) {
+        InputHandler.keyup.set(e, f)
+    }
+
+    public static onClick(f: () => void) {
+        InputHandler.click.push(f)
+    }
+
+    public static clearKeydown() {
+        InputHandler.keydown.clear()
+    }
+
+    public static clearKeyUp() {
+        InputHandler.keyup.clear()
+    }
+
+    public static clearMouseClick() {
+        InputHandler.click.splice(0)
+    }
 }

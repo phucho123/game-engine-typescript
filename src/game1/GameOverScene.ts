@@ -25,14 +25,14 @@ export class GameOverScene extends Scene {
         this.scoreDislay = new Text(
             { x: Canvas.canvas.width / 2 - 100, y: Canvas.canvas.height / 2 },
             `Score: ${GameManager.score}`,
-            '30px Arial',
+            '30px Audiowide',
             'white',
             3
         )
         this.highScoreDisplay = new Text(
             { x: Canvas.canvas.width / 2 - 100, y: Canvas.canvas.height / 2 + 50 },
             `High Score: ${GameManager.highScore}`,
-            '30px Arial',
+            '30px Audiowide',
             'white',
             3
         )
@@ -44,12 +44,6 @@ export class GameOverScene extends Scene {
         this.push(this.scoreDislay)
         this.push(this.highScoreDisplay)
         this.push(this.background)
-
-        // window.addEventListener('click', () => {
-        //     if (!this.sleep) this.renderer.sceneList[1].restart()
-        //     this.sleep = true
-        //     this.renderer.wakeupScene(1)
-        // })
     }
 
     public draw() {
@@ -64,7 +58,7 @@ export class GameOverScene extends Scene {
 
     public wakeup(): void {
         super.wakeup()
-        InputHandler.click.push(() => {
+        InputHandler.onClick(() => {
             this.setSleep()
             this.renderer.wakeupScene(1)
         })
@@ -72,6 +66,6 @@ export class GameOverScene extends Scene {
 
     public setSleep(): void {
         super.setSleep()
-        InputHandler.click.splice(0)
+        InputHandler.clearMouseClick()
     }
 }
