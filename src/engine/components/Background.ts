@@ -1,7 +1,9 @@
 import { Images } from './Images'
 import { Canvas } from '../render/canvas/Canvas'
+import { Timer } from '../system/Timer'
 
 export class Background extends Images {
+    private scrollSpeed = 0
     constructor(pos: Vector, src: string, drawOrder: number) {
         super(pos, src, drawOrder)
     }
@@ -14,7 +16,11 @@ export class Background extends Images {
     }
 
     public update() {
-        // this.pos.x -= 2
-        // if (this.pos.x <= -this.image.width) this.pos.x = 0
+        this.pos.x -= this.scrollSpeed * Timer.deltaTime
+        if (this.pos.x <= -this.image.width) this.pos.x = 0
+    }
+
+    public setScrollSpeed(speed: number) {
+        this.scrollSpeed = speed
     }
 }

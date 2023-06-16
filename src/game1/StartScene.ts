@@ -20,6 +20,7 @@ export class StartScene extends Scene {
         this.background = new Background({ x: 0, y: 0 }, '../assets/images/background-night.png', 0)
         this.background.setHeight(600)
         this.background.setWidth(400)
+        this.background.setScrollSpeed(2)
 
         this.bird = new Bird(
             { x: Canvas.canvas.width / 2 - 30, y: Canvas.canvas.height / 2 },
@@ -31,11 +32,11 @@ export class StartScene extends Scene {
         this.bird.setScale(1.5)
 
         this.startButton = new Images(
-            { x: Canvas.canvas.width / 2 - 60, y: Canvas.canvas.height / 2 - 100 },
+            { x: Canvas.canvas.width / 2 - 60, y: Canvas.canvas.height / 2 - 50 },
             '../assets/images/start-button.png',
             1
         )
-        this.startButton.setScale(0.5)
+        this.startButton.setScale(0.1)
 
         this.push(this.background)
         this.push(this.startButton)
