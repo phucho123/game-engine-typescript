@@ -1,14 +1,15 @@
-import { Sprite } from './Sprite'
+import { Images } from './Images'
+import { Canvas } from '../render/canvas/Canvas'
 
-export class Background extends Sprite {
+export class Background extends Images {
     constructor(pos: Vector, src: string, drawOrder: number) {
         super(pos, src, drawOrder)
     }
 
-    public draw(ctx: CanvasRenderingContext2D | null) {
-        if (ctx) {
-            ctx.drawImage(this.image, this.pos.x, this.pos.y, this.width, this.height)
-            ctx.drawImage(this.image, 288 + this.pos.x, this.pos.y, this.width, this.height)
+    public draw() {
+        if (Canvas.ctx) {
+            Canvas.ctx.drawImage(this.image, this.pos.x, this.pos.y, this.width, this.height)
+            Canvas.ctx.drawImage(this.image, 288 + this.pos.x, this.pos.y, this.width, this.height)
         }
     }
 

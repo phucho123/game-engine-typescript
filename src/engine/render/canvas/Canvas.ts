@@ -1,20 +1,24 @@
 export class Canvas {
-    public canvas: HTMLCanvasElement
-    public ctx: CanvasRenderingContext2D | null
+    public static canvas: HTMLCanvasElement
+    public static ctx: CanvasRenderingContext2D | null
 
-    constructor(width: number, height: number) {
-        this.canvas = document.createElement('canvas') as HTMLCanvasElement
-        this.canvas.id = 'my-canvas'
-        this.canvas.width = width
-        this.canvas.height = height
-        document.getElementById('game')?.appendChild(this.canvas)
-        this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D | null
+    constructor() {
+        ////
+    }
+
+    public static init(width: number, height: number) {
+        Canvas.canvas = document.createElement('canvas') as HTMLCanvasElement
+        Canvas.canvas.id = 'my-canvas'
+        Canvas.canvas.width = width
+        Canvas.canvas.height = height
+        document.getElementById('game')?.appendChild(Canvas.canvas)
+        Canvas.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D | null
     }
 
     public draw(): void {
-        if (this.ctx) {
-            this.ctx.fillStyle = 'green'
-            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+        if (Canvas.ctx) {
+            Canvas.ctx.fillStyle = 'green'
+            Canvas.ctx.fillRect(0, 0, Canvas.canvas.width, Canvas.canvas.height)
         }
     }
 }

@@ -2,6 +2,8 @@ import { Sprite } from '../engine/components/Sprite'
 import { Triangle } from '../engine/components/Triangle'
 import { Physics } from '../engine/physics/Physics'
 import { Canvas } from '../engine/render/canvas/Canvas'
+import { Coin } from './Coin'
+import { GameManager } from './GameManager'
 
 export class SpikeManager {
     private spikeList: Triangle[] = []
@@ -9,11 +11,16 @@ export class SpikeManager {
     private verticalSpikeList: Triangle[] = []
     private ctx: CanvasRenderingContext2D | null
     private canvasHeight: number
-    private canvsWidth: number
-    constructor(canvas: Canvas) {
-        this.ctx = canvas.ctx
-        this.canvsWidth = canvas.canvas.width
-        this.canvasHeight = canvas.canvas.height
+    private canvasWidth: number
+    private spikeSize = 30
+    private coin: Coin = new Coin({ x: 0, y: 0 }, '../../assets/images/coin-animation.png', 10, 3)
+
+    constructor() {
+        this.ctx = Canvas.ctx
+        this.canvasWidth = Canvas.canvas.width
+        this.canvasHeight = Canvas.canvas.height
+        this.coin.setScale(0.15)
+        this.coin.setAnimationSpeed(8)
     }
 
     public createSpike(
@@ -58,8 +65,9 @@ export class SpikeManager {
     }
 
     public draw(): void {
-        this.spikeList.map((spike) => spike.draw(this.ctx))
-        this.verticalSpikeList.map((spike) => spike.draw(this.ctx))
+        this.spikeList.map((spike) => spike.draw())
+        this.verticalSpikeList.map((spike) => spike.draw())
+        this.coin.draw()
     }
 
     public update(): void {
@@ -69,6 +77,10 @@ export class SpikeManager {
     }
 
     public checkCollide(sprite: Sprite): boolean {
+        if (this.coin.getDrawable() && Physics.RectanglecollideRectangle(this.coin, sprite)) {
+            GameManager.score += 5
+            this.coin.setDrawable(false)
+        }
         for (const spike of this.spikeList) {
             if (Physics.TriaglecollideRectangle(spike, sprite)) {
                 console.log('collided')
@@ -91,61 +103,88 @@ export class SpikeManager {
         }
     }
 
-    public createLeftSpike(size: number) {
+    public createLeftSpike() {
         this.clear()
+        this.coin.setDrawable(false)
         let numSpike = Math.floor(Math.random() * 7) + 4
         let prev = 0
-        for (let i = size * 2; i < this.canvasHeight - size; i += size * 2) {
+        for (
+            let i = this.spikeSize * 2;
+            i < this.canvasHeight - this.spikeSize;
+            i += this.spikeSize * 2
+        ) {
             let tmp
             if (prev == 1) {
                 tmp = Math.floor(Math.random() * 30) % 3 == 0
             } else tmp = Math.floor(Math.random() * 5)
             if (tmp && numSpike > 0) {
-                this.createSpike(size, i, 0, i + size, 0, i - size, 2)
+                this.createSpike(this.spikeSize, i, 0, i + this.spikeSize, 0, i - this.spikeSize, 2)
                 numSpike--
                 prev = 1
-            } else prev = 0
+            } else {
+                const tmp = Math.floor(Math.random() * 30) % 5
+                if (!this.coin.getDrawable() && tmp == 1) {
+                    this.coin.setPos(0, i - this.spikeSize)
+                    // console.log('create coin')
+                    this.coin.setDrawable(true)
+                }
+                prev = 0
+            }
         }
     }
 
-    public createRightSpike(size: number) {
+    public createRightSpike() {
         this.clear()
+        this.coin.setDrawable(false)
         let numSpike = Math.floor(Math.random() * 7) + 4
         let prev = 0
-        for (let i = size * 2; i < this.canvasHeight; i += size * 2) {
+        for (let i = this.spikeSize * 2; i < this.canvasHeight; i += this.spikeSize * 2) {
             let tmp
             if (prev == 1) {
-                tmp = Math.floor(Math.random() * 30) % 3 == 0
+                tmp = Math.floor(Math.random() * 60) % 3 == 0
             } else tmp = Math.floor(Math.random() * 2)
 
             if (tmp && numSpike > 0) {
                 this.createSpike(
-                    this.canvsWidth - size,
+                    this.canvasWidth - this.spikeSize,
                     i,
-                    this.canvsWidth,
-                    i + size,
-                    this.canvsWidth,
-                    i - size,
+                    this.canvasWidth,
+                    i + this.spikeSize,
+                    this.canvasWidth,
+                    i - this.spikeSize,
                     2
                 )
                 numSpike--
                 prev = 1
-            } else prev = 0
+            } else {
+                const tmp = Math.floor(Math.random() * 30) % 5
+                if (!this.coin.getDrawable() && tmp == 1) {
+                    this.coin.setPos(this.canvasWidth - this.coin.getWidth(), i - this.spikeSize)
+                    // console.log('create coin')
+                    this.coin.setDrawable(true)
+                }
+                prev = 0
+            }
         }
     }
 
-    public createVerticalSpike(size: number) {
-        for (let i = size; i < this.canvsWidth; i += size * 2) {
-            this.verticalSpikeList.push(
-                new Triangle({ x: i, y: size }, { x: i - size, y: 0 }, { x: i + size, y: 0 }, 2)
-            )
-        }
-        for (let i = size; i < this.canvsWidth; i += size * 2) {
+    public createVerticalSpike() {
+        for (let i = this.spikeSize; i < this.canvasWidth; i += this.spikeSize * 2) {
             this.verticalSpikeList.push(
                 new Triangle(
-                    { x: i, y: this.canvasHeight - size },
-                    { x: i - size, y: this.canvasHeight },
-                    { x: i + size, y: this.canvasHeight },
+                    { x: i, y: this.spikeSize },
+                    { x: i - this.spikeSize, y: 0 },
+                    { x: i + this.spikeSize, y: 0 },
+                    2
+                )
+            )
+        }
+        for (let i = this.spikeSize; i < this.canvasWidth; i += this.spikeSize * 2) {
+            this.verticalSpikeList.push(
+                new Triangle(
+                    { x: i, y: this.canvasHeight - this.spikeSize },
+                    { x: i - this.spikeSize, y: this.canvasHeight },
+                    { x: i + this.spikeSize, y: this.canvasHeight },
                     2
                 )
             )

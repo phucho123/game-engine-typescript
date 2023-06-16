@@ -1,44 +1,46 @@
 import { Shape } from './Shape'
+import { Canvas } from '../render/canvas/Canvas'
 
 export class Rectangle extends Shape {
     private width = 0
     private height = 0
 
-    constructor(pos: Vector, color: string, ctx: CanvasRenderingContext2D | null) {
-        super(pos, color, ctx)
+    constructor(pos: Vector, color: string, drawOrder: number) {
+        super(pos, color, drawOrder)
+        this.color = 'black'
     }
 
     public fill(): void {
-        if (this.ctx) {
-            this.ctx.fillStyle = this.color
-            this.ctx.save()
-            this.ctx.translate(this.pos.x, this.pos.y)
-            this.ctx.rotate(this.angle)
-            this.ctx.fillRect(
+        if (Canvas.ctx) {
+            Canvas.ctx.fillStyle = this.color
+            Canvas.ctx.save()
+            Canvas.ctx.translate(this.pos.x, this.pos.y)
+            Canvas.ctx.rotate(this.angle)
+            Canvas.ctx.fillRect(
                 -(this.width * this.scale) / 2,
                 -(this.height * this.scale) / 2,
                 this.width * this.scale,
                 this.height * this.scale
             )
-            this.ctx.restore()
+            Canvas.ctx.restore()
         }
     }
 
     public rect(): void {
-        if (this.ctx) {
-            this.ctx.beginPath()
-            this.ctx.strokeStyle = this.color
-            this.ctx.save()
-            this.ctx.translate(this.pos.x, this.pos.y)
-            this.ctx.rotate(this.angle)
-            this.ctx.rect(
+        if (Canvas.ctx) {
+            Canvas.ctx.beginPath()
+            Canvas.ctx.strokeStyle = this.color
+            Canvas.ctx.save()
+            Canvas.ctx.translate(this.pos.x, this.pos.y)
+            Canvas.ctx.rotate(this.angle)
+            Canvas.ctx.rect(
                 -(this.width * this.scale) / 2,
                 -(this.height * this.scale) / 2,
                 this.width * this.scale,
                 this.height * this.scale
             )
-            this.ctx.restore()
-            this.ctx.stroke()
+            Canvas.ctx.restore()
+            Canvas.ctx.stroke()
         }
     }
 

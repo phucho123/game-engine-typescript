@@ -5,38 +5,39 @@ export class Arc extends Shape {
     private startAngle = 0
     private endAngle = 0
 
-    constructor(pos: Vector, color: string, ctx: CanvasRenderingContext2D | null) {
-        super(pos, color, ctx)
+    constructor(pos: Vector, color: string, drawOrder: number) {
+        super(pos, color, drawOrder)
+        this.color = 'black'
     }
 
-    public fill(): void {
-        if (this.ctx) {
-            this.ctx.save()
-            this.ctx.translate(this.pos.x, this.pos.y)
-            this.ctx.rotate(this.angle)
-            this.ctx.fillStyle = this.color
-            this.ctx.arc(
+    public fill(ctx: CanvasRenderingContext2D | null): void {
+        if (ctx) {
+            ctx.save()
+            ctx.translate(this.pos.x, this.pos.y)
+            ctx.rotate(this.angle)
+            ctx.fillStyle = this.color
+            ctx.arc(
                 this.pos.x,
                 this.pos.y,
                 this.radius * this.scale,
                 this.startAngle,
                 this.endAngle
             )
-            this.ctx.fill()
-            this.ctx.restore()
+            ctx.fill()
+            ctx.restore()
         }
     }
 
-    public arc(): void {
-        if (this.ctx) {
-            this.ctx.save()
-            this.ctx.translate(this.pos.x, this.pos.y)
-            this.ctx.rotate(this.angle)
-            this.ctx.beginPath()
-            this.ctx.strokeStyle = this.color
-            this.ctx.arc(0, 0, this.radius * this.scale, this.startAngle, this.endAngle)
-            this.ctx.stroke()
-            this.ctx.restore()
+    public arc(ctx: CanvasRenderingContext2D | null): void {
+        if (ctx) {
+            ctx.save()
+            ctx.translate(this.pos.x, this.pos.y)
+            ctx.rotate(this.angle)
+            ctx.beginPath()
+            ctx.strokeStyle = this.color
+            ctx.arc(0, 0, this.radius * this.scale, this.startAngle, this.endAngle)
+            ctx.stroke()
+            ctx.restore()
         }
     }
 

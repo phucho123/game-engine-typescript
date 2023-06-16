@@ -1,29 +1,35 @@
-import { Sprite } from './Sprite'
+import { Shape } from './Shape'
+import { Canvas } from '../render/canvas/Canvas'
 
-export class Triangle extends Sprite {
-    private color: string
+export class Triangle extends Shape {
     public p1: Vector
     public p2: Vector
     public p3: Vector
 
     constructor(p1: Vector, p2: Vector, p3: Vector, drawOrder: number) {
-        super(p1, '', drawOrder)
+        super(p1, 'black', drawOrder)
         this.color = 'black'
         this.p1 = p1
         this.p2 = p2
         this.p3 = p3
     }
-    public draw(ctx: CanvasRenderingContext2D | null) {
-        if (ctx) {
-            ctx.beginPath()
-            ctx.fillStyle = this.color
-            ctx.moveTo(this.p1.x, this.p1.y)
-            ctx.lineTo(this.p2.x, this.p2.y)
-            ctx.lineTo(this.p3.x, this.p3.y)
-            ctx.fill()
+    public draw() {
+        if (Canvas.ctx) {
+            Canvas.ctx.beginPath()
+            Canvas.ctx.fillStyle = this.color
+            Canvas.ctx.moveTo(this.p1.x, this.p1.y)
+            Canvas.ctx.lineTo(this.p2.x, this.p2.y)
+            Canvas.ctx.lineTo(this.p3.x, this.p3.y)
+            Canvas.ctx.fill()
         }
     }
     public setColor(color: string) {
         this.color = color
+    }
+    public setDrawOrder(drawOrder: number) {
+        this.drawOrder = drawOrder
+    }
+    public update() {
+        ///
     }
 }

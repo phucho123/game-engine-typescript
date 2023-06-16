@@ -1,4 +1,3 @@
-import { AnimationSprite } from '../components/AnimationSprite'
 import { Sprite } from '../components/Sprite'
 import { Triangle } from '../components/Triangle'
 import { Maths } from '../math/Maths'
@@ -7,10 +6,7 @@ export class Physics {
     constructor() {
         ////
     }
-    static RectanglecollideRectangle(
-        sprite1: Sprite | AnimationSprite,
-        sprite2: Sprite | AnimationSprite
-    ): boolean {
+    static RectanglecollideRectangle(sprite1: Sprite, sprite2: Sprite): boolean {
         const diff_x = Math.abs(sprite1.getCenter().x - sprite2.getCenter().x)
         const diff_y = Math.abs(sprite1.getCenter().y - sprite2.getCenter().y)
 
@@ -24,7 +20,7 @@ export class Physics {
         return false
     }
 
-    static TriaglecollideRectangle(sprite1: Triangle, sprite2: Sprite | AnimationSprite): boolean {
+    static TriaglecollideRectangle(sprite1: Triangle, sprite2: Sprite): boolean {
         const p1 = Maths.intersects(
             sprite1.p1.x,
             sprite1.p1.y,

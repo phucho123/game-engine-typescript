@@ -1,25 +1,26 @@
-import { Sprite } from './Sprite'
-
-export class Text extends Sprite {
-    content: string
-    font: string
-    color: string
-    ctx: CanvasRenderingContext2D | null
+import { Canvas } from '../render/canvas/Canvas'
+export class Text {
+    private pos: Vector
+    private content: string
+    private font: string
+    private color: string
+    private drawOrder: number
+    private drawable = true
 
     constructor(pos: Vector, content: string, font: string, color: string, drawOrder: number) {
-        super(pos, '', 1)
+        this.pos = pos
         this.content = content
         this.font = font
         this.color = color
         this.drawOrder = drawOrder
     }
 
-    public draw(ctx: CanvasRenderingContext2D | null): void {
-        if (ctx) {
-            ctx.beginPath()
-            ctx.font = this.font
-            ctx.fillStyle = this.color
-            ctx.fillText(this.content, this.pos.x, this.pos.y)
+    public draw(): void {
+        if (Canvas.ctx && this.drawable) {
+            Canvas.ctx.beginPath()
+            Canvas.ctx.font = this.font
+            Canvas.ctx.fillStyle = this.color
+            Canvas.ctx.fillText(this.content, this.pos.x, this.pos.y)
         }
     }
 
@@ -30,5 +31,13 @@ export class Text extends Sprite {
 
     public setContent(content: string) {
         this.content = content
+    }
+
+    public getDrawOrder(): number {
+        return this.drawOrder
+    }
+
+    public update() {
+        ///
     }
 }

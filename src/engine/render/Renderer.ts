@@ -1,22 +1,39 @@
 import { Scene } from '../scenes/Scene'
+import { Canvas } from './canvas/Canvas'
 
 export class Renderer {
-    private scence: Scene
+    public sceneList: Scene[] = []
     private ctx: CanvasRenderingContext2D | null
-    constructor(ctx: CanvasRenderingContext2D | null) {
-        this.ctx = ctx
+
+    constructor() {
+        this.ctx = Canvas.ctx
     }
+
     public draw(): void {
         if (this.ctx) {
-            this.scence.getSpriteList().map((sprite) => {
-                sprite.draw(this.ctx)
+            this.sceneList.map((scene) => {
+                if (!scene.sleep) {
+                    scene.draw()
+                }
             })
         }
     }
+
     public update() {
-        this.scence.update()
+        this.sceneList.map((scene) => {
+            if (!scene.sleep) scene.update()
+        })
     }
-    public setScene(scence: Scene) {
-        this.scence = scence
+
+    public push(scene: Scene) {
+        this.sceneList.push(scene)
+    }
+
+    public sleepScene(index: number) {
+        this.sceneList[index].setSleep()
+    }
+
+    public wakeupScene(index: number) {
+        this.sceneList[index].wakeup()
     }
 }

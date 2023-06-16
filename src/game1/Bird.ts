@@ -1,23 +1,24 @@
-import { AnimationSprite } from '../engine/components/AnimationSprite'
+import { Body } from '../engine/physics/Body'
+import { Canvas } from '../engine/render/canvas/Canvas'
 
-export class Bird extends AnimationSprite {
+export class Bird extends Body {
     constructor(pos: Vector, src: string, drawOrder: number) {
-        super(pos, src, drawOrder, 3)
+        super(pos, src, 3, drawOrder)
         this.setDirection(1, 1)
         this.setSpeedX(2)
         this.setSpeedY(0)
         this.setGravity(0.07)
+        this.setFlip(false)
     }
 
     public update() {
         super.update()
-        if (this.pos.x + this.getWidth() >= 400) {
+        if (this.pos.x + this.getWidth() >= Canvas.canvas.width) {
+            this.setFlip(true)
             this.setDirection(-1, 1)
-            this._flip()
-        } else if (this.pos.x <= 0 && this.speed) {
+        } else if (this.pos.x <= 0) {
+            this.setFlip(false)
             this.setDirection(1, 1)
-            this._flip()
         }
     }
-
 }

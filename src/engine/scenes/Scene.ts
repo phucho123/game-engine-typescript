@@ -1,51 +1,60 @@
-import { AnimationSprite } from '../components/AnimationSprite'
-import { Background } from '../components/Background'
-import { Sprite } from '../components/Sprite'
+import { Images } from '../components/Images'
+import { Text } from '../components/Text'
+import { Shape } from '../components/Shape'
 
 export class Scene {
-    private spriteList: (Sprite | AnimationSprite | Background)[]
+    private spriteList: (Images | Text | Shape)[]
+    private needToSort: boolean
+    public sleep = true
 
     constructor() {
         this.spriteList = []
     }
 
-    public push(sprite: Sprite | AnimationSprite | Background): void {
-        let i
-        for (i = this.spriteList.length - 1; i >= 0; i--) {
-            if (this.spriteList[i].getOrder() <= sprite.getOrder()) {
-                this.spriteList.splice(i + 1, 0, sprite)
-                break
-            }
-        }
-        if (i < 0) this.spriteList.splice(0, 0, sprite)
+    public push(sprite: Images | Text | Shape): void {
+        this.needToSort = true
+        this.spriteList.push(sprite)
     }
 
-    // public pushToObstacleList(sprite: Sprite): void {
-    //     let i
-    //     for (i = this.obstacleList.length - 1; i >= 0; i--) {
-    //         if (this.obstacleList[i].getOrder() <= sprite.getOrder()) {
-    //             this.obstacleList.splice(i + 1, 0, sprite)
-    //             break
-    //         }
-    //     }
-    //     if (i < 0) this.obstacleList.splice(0, 0, sprite)
-    // }
-
     public update(): void {
+        if (this.sleep) return
         this.spriteList.map((sprite) => {
             sprite.update()
         })
     }
 
-    public getSpriteList(): (Sprite | AnimationSprite | Background)[] {
+    public getSpriteList(): (Images | Text | Shape)[] {
         return this.spriteList
     }
 
-    public draw(ctx: CanvasRenderingContext2D | null): void {
-        if (ctx) {
-            this.spriteList.map((sprite) => {
-                sprite.draw(ctx)
+    public draw(): void {
+        if (this.sleep) return
+        if (this.needToSort) {
+            this.needToSort = false
+            this.spriteList.sort((a: Images | Text | Shape, b: Images | Text | Shape) => {
+                return a.getDrawOrder() - b.getDrawOrder()
             })
         }
+        this.spriteList.map((sprite) => {
+            sprite.draw()
+        })
+    }
+
+    public requestSort() {
+        this.needToSort = true
+    }
+
+    public restart() {
+        ////
+    }
+
+    public wakeup() {
+        ///
+        this.sleep = false
+    }
+
+    public setSleep() {
+        ///
+        this.sleep = true
     }
 }

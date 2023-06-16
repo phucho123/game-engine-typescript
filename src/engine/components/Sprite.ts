@@ -1,168 +1,85 @@
-import { Maths } from '../math/Maths'
+import { Images } from './Images'
+import { Canvas } from '../render/canvas/Canvas'
+import { Timer } from '../system/Timer'
 
-export class Sprite {
-    protected pos: Vector
-    protected image: HTMLImageElement = new Image()
-    protected angle: number
-    protected width: number
-    protected height: number
-    protected scale: number
-    protected direction: Vector
-    protected speed: Vector
-    protected gravity: number
-    protected acceleration: number
-    protected drawable = true
-    protected drawOrder: number
-    protected center: Vector = { x: 0, y: 0 }
-    protected flip = false
+export class Sprite extends Images {
+    private frame: number
+    private maxFrame: number
+    private animationTime: number
+    private timeToChangeFrame: number
 
-    constructor(pos: Vector, src: string, drawOrder: number) {
-        this.pos = pos
-        this.angle = 0
-        if (src != '') {
-            this.image.src = src
-            this.image.onload = () => {
-                if (this.width == undefined) this.width = this.image.width
-                if (this.height == undefined) this.height = this.image.height
-            }
-        }
-
-        this.scale = 1
-        this.direction = { x: 0, y: 0 }
-        this.speed = { x: 0, y: 0 }
-        this.acceleration = 0
-        this.drawOrder = drawOrder
-        this.gravity = 0
+    constructor(pos: Vector, src: string, maxFrame: number, drawOrder: number) {
+        super(pos, src, drawOrder)
+        this.frame = 0
+        this.maxFrame = maxFrame
+        this.animationTime = 20
+        this.timeToChangeFrame = 0
         this.updateCenter()
     }
 
-    public draw(ctx: CanvasRenderingContext2D | null): void {
-        if (ctx && this.drawable) {
-            ctx.save()
+    public draw(): void {
+        this.timeToChangeFrame += 1 * Timer.deltaTime
+        if (this.timeToChangeFrame >= this.animationTime) {
+            this.timeToChangeFrame = 0
+            this.frame = (this.frame + 1) % this.maxFrame
+        }
+        if (Canvas.ctx && this.drawable) {
+            Canvas.ctx.save()
             if (this.flip) {
-                ctx.translate(this.pos.x + this.width, this.pos.y)
-                ctx.scale(-1, 1)
-                ctx.translate(this.getWidth() / 2, this.getHeight() / 2)
-                ctx.rotate(this.angle)
+                Canvas.ctx.translate(this.pos.x + this.width / this.maxFrame, this.pos.y)
+                Canvas.ctx.scale(-1, 1)
+                Canvas.ctx.translate(this.getWidth() / 2, this.getHeight() / 2)
+                Canvas.ctx.rotate(this.angle)
             } else {
-                ctx.translate(this.center.x, this.center.y)
-                ctx.rotate(this.angle)
+                Canvas.ctx.translate(this.center.x, this.center.y)
+                Canvas.ctx.rotate(this.angle)
             }
-            ctx.drawImage(
+
+            Canvas.ctx.drawImage(
                 this.image,
-                (-this.width * this.scale) / 2,
+                (this.frame * this.image.width) / this.maxFrame,
+                0,
+                this.image.width / this.maxFrame,
+                this.image.height,
+                (-this.width * this.scale) / (2 * this.maxFrame),
                 (-this.height * this.scale) / 2,
-                this.width * this.scale,
+                (this.width * this.scale) / this.maxFrame,
                 this.height * this.scale
             )
-            // ctx.beginPath()
-            // ctx.strokeStyle = 'red'
-            // ctx.rect(
-            //     (-this.width * this.scale) / 2,
+
+            // Canvas.ctx.beginPath()
+            // Canvas.ctx.strokeStyle = 'red'
+            // Canvas.ctx.rect(
+            //     (-this.width * this.scale) / (2 * this.maxFrame),
             //     (-this.height * this.scale) / 2,
-            //     this.width * this.scale,
+            //     (this.width * this.scale) / this.maxFrame,
             //     this.height * this.scale
             // )
-            // ctx.stroke()
-            ctx.restore()
+            // Canvas.ctx.stroke()
+            Canvas.ctx.restore()
         }
     }
 
-    public setScale(scale: number) {
-        this.scale = scale
-    }
-
-    public getPos(): Vector {
-        return this.pos
-    }
-
-    public setPos(x: number, y: number) {
-        this.pos.x = x
-        this.pos.y = y
+    public setAnimationSpeed(speed: number) {
+        this.animationTime /= speed
     }
 
     public getWidth(): number {
-        return this.width * this.scale
+        return (this.width * this.scale) / this.maxFrame
     }
 
     public setWidth(width: number): void {
-        this.width = width
-    }
-
-    public getHeight(): number {
-        return this.height * this.scale
-    }
-
-    public setHeight(height: number): void {
-        this.height = height
-    }
-
-    public setDirection(xpos: number, ypos: number): void {
-        const dist = Math.sqrt(xpos * xpos + ypos * ypos)
-
-        this.direction.x = xpos / dist
-        this.direction.y = ypos / dist
-    }
-
-    public setSpeedX(speed: number): void {
-        this.speed.x = speed
-    }
-
-    public setSpeedY(speed: number) {
-        this.speed.y = speed
-    }
-
-    public setAcceleration(acceleration: number) {
-        this.acceleration = acceleration
-    }
-
-    public rotate(angle: number) {
-        this.angle = Maths.deg2rad * angle
-    }
-
-    public setDrawable(state: boolean): void {
-        this.drawable = state
-    }
-
-    public setDrawOrder(drawOrder: number): void {
-        this.drawOrder = drawOrder
-    }
-
-    public getOrder(): number {
-        return this.drawOrder
-    }
-
-    public update(): void {
-        // this.angle = Math.min(this.angle + (this.acceleration * 2 * Math.PI) / 20, Math.PI / 3)
-        this.speed.x += this.acceleration
-        this.speed.y += this.gravity
-        this.pos.x += this.direction.x * this.speed.x
-        this.pos.y += this.direction.y * this.speed.y
+        this.width = width * this.maxFrame
         this.updateCenter()
     }
 
-    public setSrc(src: string): void {
-        this.image.src = src
+    public updateCenter(): void {
+        this.center.x = this.pos.x + (this.width * this.scale) / (2 * this.maxFrame)
+        this.center.y = this.pos.y + (this.height * this.scale) / 2
     }
 
-    public getCenter(): Vector {
-        return this.center
-    }
-
-    public updateCenter() {
-        this.center.x = this.pos.x + this.width / 2
-        this.center.y = this.pos.y + this.height / 2
-    }
-
-    public _flip(): void {
-        this.flip = !this.flip
-    }
-
-    public setFlip(state: boolean) {
-        this.flip = state
-    }
-
-    public setGravity(gravity: number) {
-        this.gravity = gravity
+    public setScale(scale: number): void {
+        this.scale = scale
+        this.updateCenter()
     }
 }

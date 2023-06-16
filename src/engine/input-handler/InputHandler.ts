@@ -1,16 +1,51 @@
+// export class InputHandler {
+//     private functionMap: Map<string, () => void> = new Map()
+
+import { Canvas } from '../render/canvas/Canvas'
+
+//     constructor() {
+//         window.addEventListener('keypress', (e) => {
+//             this.functionMap.get(e.key)?.()
+//         })
+
+//         window.addEventListener('click', () => {
+//             this.functionMap.get('click')?.()
+//         })
+//     }
+
+//     public push(key: string, func: () => void): void {
+//         this.functionMap.set(key, func)
+//     }
+// }
+
 export class InputHandler {
-    private functionMap: Map<string, () => void> = new Map()
-    constructor() {
-        window.addEventListener('keypress', (e) => {
-            this.functionMap.get(e.key)?.()
+    public static keydown: Map<string, () => void> = new Map()
+    public static keyup: Map<string, () => void> = new Map()
+    public static click: (() => void)[] = []
+    public static mouseX: number
+    public static mouseY: number
+
+    public constructor() {
+        ////
+    }
+
+    public static init() {
+        window.addEventListener('keydown', (e) => {
+            InputHandler.keydown.get(e.key)?.()
+        })
+
+        window.addEventListener('keyup', (e) => {
+            InputHandler.keyup.get(e.key)?.()
         })
 
         window.addEventListener('click', () => {
-            this.functionMap.get('click')?.()
+            InputHandler.click.map((f) => f())
         })
-    }
 
-    public push(key: string, func: () => void): void {
-        this.functionMap.set(key, func)
+        window.addEventListener('mousemove', (e) => {
+            const rect = Canvas.canvas.getBoundingClientRect()
+            InputHandler.mouseX = e.clientX - rect.left
+            InputHandler.mouseY = e.clientY - rect.top
+        })
     }
 }
