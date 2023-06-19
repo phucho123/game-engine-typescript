@@ -2,22 +2,22 @@ import { Background } from '../engine/components/Background'
 import { Scene } from '../engine/scenes/Scene'
 import { Bird } from './Bird'
 import { Canvas } from '../engine/render/canvas/Canvas'
-import { Renderer } from '../engine/render/Renderer'
 import { SpikeManager } from './SpikeManager'
 import { Text } from '../engine/components/Text'
 import { GameManager } from './GameManager'
-import { InputHandler } from '../engine/input-handler/InputHandler2'
+import { InputHandler } from '../engine/input-handler/InputHandler'
+import { SceneManager } from '../engine/scenes/SceneManager'
 
 export class PlayScene extends Scene {
     private background: Background
     private bird: Bird
-    private renderer: Renderer
+    private sceneManager: SceneManager
     private spikeManager: SpikeManager = new SpikeManager()
     private scoreDisplay: Text
 
-    constructor(renderer: Renderer) {
+    constructor(sceneManager: SceneManager) {
         super()
-        this.renderer = renderer
+        this.sceneManager = sceneManager
         this.background = new Background({ x: 0, y: 0 }, '../assets/images/background-night.png', 0)
         this.background.setHeight(600)
         this.background.setWidth(400)
@@ -36,9 +36,9 @@ export class PlayScene extends Scene {
             1
         )
 
-        this.pushToSpriteList(this.background)
-        this.pushToSpriteList(this.bird)
-        this.pushToSpriteList(this.scoreDisplay)
+        this.addGameObject(this.background)
+        this.addGameObject(this.bird)
+        this.addGameObject(this.scoreDisplay)
 
         this.spikeManager.createVerticalSpike()
     }
@@ -54,7 +54,7 @@ export class PlayScene extends Scene {
         if (this.spikeManager.checkCollide(this.bird)) {
             GameManager.highScore = Math.max(GameManager.score, GameManager.highScore)
             this.setSleep()
-            this.renderer.wakeupScene(2)
+            this.sceneManager.wakeupScene(2)
         } else if (this.bird.getPos().x <= 0) {
             GameManager.score++
             this.scoreDisplay.setContent(GameManager.score.toString())

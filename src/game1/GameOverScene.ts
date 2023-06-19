@@ -1,23 +1,23 @@
-import { Images } from '../engine/components/Images'
+import { BaseImage } from '../engine/components/BaseImage'
 import { Scene } from '../engine/scenes/Scene'
 import { Canvas } from '../engine/render/canvas/Canvas'
 import { Text } from '../engine/components/Text'
-import { Renderer } from '../engine/render/Renderer'
 import { Background } from '../engine/components/Background'
 import { GameManager } from './GameManager'
-import { InputHandler } from '../engine/input-handler/InputHandler2'
+import { InputHandler } from '../engine/input-handler/InputHandler'
+import { SceneManager } from '../engine/scenes/SceneManager'
 
 export class GameOverScene extends Scene {
-    private gameOverImage: Images
+    private gameOverImage: BaseImage
     private scoreDislay: Text
     private highScoreDisplay: Text
-    private renderer: Renderer
+    private sceneManager: SceneManager
     private background: Background
 
-    constructor(renderer: Renderer) {
+    constructor(sceneManager: SceneManager) {
         super()
-        this.renderer = renderer
-        this.gameOverImage = new Images(
+        this.sceneManager = sceneManager
+        this.gameOverImage = new BaseImage(
             { x: Canvas.canvas.width / 2 - 90, y: Canvas.canvas.height / 2 - 100 },
             '../assets/images/gameover.png',
             3
@@ -40,20 +40,16 @@ export class GameOverScene extends Scene {
         this.background.setHeight(600)
         this.background.setWidth(400)
 
-        this.pushToSpriteList(this.gameOverImage)
-        this.pushToSpriteList(this.scoreDislay)
-        this.pushToSpriteList(this.highScoreDisplay)
-        this.pushToSpriteList(this.background)
-    }
-
-    public draw() {
-        super.draw()
+        this.addGameObject(this.gameOverImage)
+        this.addGameObject(this.scoreDislay)
+        this.addGameObject(this.highScoreDisplay)
+        this.addGameObject(this.background)
     }
 
     public update() {
         if (InputHandler.onClick()) {
             this.setSleep()
-            this.renderer.wakeupScene(1)
+            this.sceneManager.wakeupScene(1)
         }
         super.update()
         this.scoreDislay.setContent(`Score: ${GameManager.score}`)

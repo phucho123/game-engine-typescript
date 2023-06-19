@@ -1,8 +1,8 @@
-import { Images } from './Images'
+import { BaseImage } from './BaseImage'
 import { Canvas } from '../render/canvas/Canvas'
 import { Timer } from '../system/Timer'
 
-export class Background extends Images {
+export class Background extends BaseImage {
     private scrollSpeedX = 0
     private scrollSpeedY = 0
     constructor(pos: Vector, src: string, drawOrder: number) {

@@ -1,4 +1,6 @@
-export class Shape {
+import { GameObject } from './GameObject'
+
+export class Shape extends GameObject {
     protected color: string
     protected pos: Vector
     protected scale: number
@@ -6,6 +8,7 @@ export class Shape {
     protected drawOrder: number
 
     constructor(pos: Vector, color: string, drawOrder: number) {
+        super()
         this.pos = pos
         this.color = color
         this.scale = 1

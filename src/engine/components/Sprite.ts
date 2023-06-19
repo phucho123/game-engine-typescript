@@ -1,8 +1,8 @@
-import { Images } from './Images'
+import { BaseImage } from './BaseImage'
 import { Canvas } from '../render/canvas/Canvas'
 import { Timer } from '../system/Timer'
 
-export class Sprite extends Images {
+export class Sprite extends BaseImage {
     private frame: number
     private maxFrame: number
     private animationTime: number
@@ -17,12 +17,16 @@ export class Sprite extends Images {
         this.updateCenter()
     }
 
-    public draw(): void {
+    public update(): void {
+        super.update()
         this.timeToChangeFrame += 1 * Timer.deltaTime
         if (this.timeToChangeFrame >= this.animationTime) {
             this.timeToChangeFrame = 0
             this.frame = (this.frame + 1) % this.maxFrame
         }
+    }
+
+    public draw(): void {
         if (Canvas.ctx && this.drawable) {
             Canvas.ctx.save()
             if (this.flip) {

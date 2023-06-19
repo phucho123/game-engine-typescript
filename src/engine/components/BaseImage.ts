@@ -1,7 +1,8 @@
 import { Maths } from '../math/Maths'
 import { Canvas } from '../render/canvas/Canvas'
+import { GameObject } from './GameObject'
 
-export class Images {
+export class BaseImage extends GameObject {
     protected pos: Vector
     protected image: HTMLImageElement = new Image()
     protected angle: number
@@ -14,6 +15,7 @@ export class Images {
     protected flip = false
 
     constructor(pos: Vector, src: string, drawOrder: number) {
+        super()
         this.pos = pos
         this.angle = 0
         if (src != '') {

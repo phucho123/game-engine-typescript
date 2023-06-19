@@ -1,41 +1,13 @@
-import { Scene } from '../scenes/Scene'
-import { Canvas } from './canvas/Canvas'
+import { SceneManager } from '../scenes/SceneManager'
 
 export class Renderer {
-    public sceneList: Scene[] = []
-    private ctx: CanvasRenderingContext2D | null
+    private sceneManager: SceneManager
 
-    constructor() {
-        this.ctx = Canvas.ctx
+    constructor(sceneManager: SceneManager) {
+        this.sceneManager = sceneManager
     }
 
     public draw(): void {
-        if (this.ctx) {
-            for (const scene of this.sceneList) {
-                if (!scene.isSleep()) {
-                    scene.draw()
-                }
-            }
-        }
-    }
-
-    public update() {
-        for (const scene of this.sceneList) {
-            if (!scene.isSleep()) {
-                scene.update()
-            }
-        }
-    }
-
-    public push(scene: Scene) {
-        this.sceneList.push(scene)
-    }
-
-    public sleepScene(index: number) {
-        this.sceneList[index].setSleep()
-    }
-
-    public wakeupScene(index: number) {
-        this.sceneList[index].wakeup()
+        this.sceneManager.draw()
     }
 }

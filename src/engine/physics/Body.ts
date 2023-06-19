@@ -47,7 +47,6 @@ export class Body extends Sprite {
     }
 
     public update() {
-        // this.angle = Math.min(this.angle + (this.acceleration * 2 * Math.PI) / 20, Math.PI / 3)
         this.speed.x += this.acceleration * Timer.deltaTime
         this.speed.y += (this.gravity + this.acceleration) * Timer.deltaTime
         this.pos.x += this.direction.x * this.speed.x * Timer.deltaTime

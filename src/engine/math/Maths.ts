@@ -1,4 +1,4 @@
-import { Images } from '../components/Images'
+import { BaseImage } from '../components/BaseImage'
 import { Sprite } from '../components/Sprite'
 
 export class Maths {
@@ -9,7 +9,7 @@ export class Maths {
         ///
     }
 
-    static checkPointInRect(x: number, y: number, rect: Sprite | Images) {
+    static checkPointInRect(x: number, y: number, rect: Sprite | BaseImage) {
         const diff_x = Math.abs(x - rect.getCenter().x)
         const diff_y = Math.abs(y - rect.getCenter().y)
 

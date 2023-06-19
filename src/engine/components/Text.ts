@@ -1,5 +1,6 @@
 import { Canvas } from '../render/canvas/Canvas'
-export class Text {
+import { GameObject } from './GameObject'
+export class Text extends GameObject {
     private pos: Vector
     private content: string
     private font: string
@@ -8,6 +9,7 @@ export class Text {
     private drawable = true
 
     constructor(pos: Vector, content: string, font: string, color: string, drawOrder: number) {
+        super()
         this.pos = pos
         this.content = content
         this.font = font

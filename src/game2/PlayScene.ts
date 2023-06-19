@@ -1,12 +1,12 @@
 import { Background } from '../engine/components/Background'
-import { InputHandler } from '../engine/input-handler/InputHandler2'
+import { InputHandler } from '../engine/input-handler/InputHandler'
 import { Canvas } from '../engine/render/canvas/Canvas'
 import { Scene } from '../engine/scenes/Scene'
 import { FloorManager } from './FloorManager'
 import { GameManager } from './GameManager'
 import { Player } from './Player'
 import { Text } from '../engine/components/Text'
-import { Renderer } from '../engine/render/Renderer'
+import { SceneManager } from '../engine/scenes/SceneManager'
 
 export class PlayScene extends Scene {
     private player: Player
@@ -14,12 +14,12 @@ export class PlayScene extends Scene {
     private floorManager: FloorManager
     private scoreDisplay: Text
     private highScoreDisplay: Text
-    private renderer: Renderer
+    private sceneManager: SceneManager
     static scroll = 0
 
-    constructor(renderer: Renderer) {
+    constructor(sceneManager: SceneManager) {
         super()
-        this.renderer = renderer
+        this.sceneManager = sceneManager
         this.player = new Player(
             { x: 0, y: Canvas.canvas.height - 100 },
             '../assets/images/doodle.png',
@@ -48,10 +48,10 @@ export class PlayScene extends Scene {
 
         this.floorManager = new FloorManager()
 
-        this.pushToSpriteList(this.player)
-        this.pushToSpriteList(this.background)
-        this.pushToSpriteList(this.scoreDisplay)
-        this.pushToSpriteList(this.highScoreDisplay)
+        this.addGameObject(this.player)
+        this.addGameObject(this.background)
+        this.addGameObject(this.scoreDisplay)
+        this.addGameObject(this.highScoreDisplay)
     }
 
     public update(): void {
@@ -75,7 +75,7 @@ export class PlayScene extends Scene {
 
         if (this.player.getPos().y + this.player.getHeight() >= Canvas.canvas.height) {
             GameManager.highScore = Math.max(GameManager.score, GameManager.highScore)
-            this.renderer.wakeupScene(2)
+            this.sceneManager.wakeupScene(2)
             this.setSleep()
         }
     }

@@ -1,9 +1,9 @@
 import { Canvas } from '../render/canvas/Canvas'
 
 export class InputHandler {
-    public static keydown: Map<string, () => void> = new Map()
-    public static keyup: Map<string, () => void> = new Map()
-    public static click: (() => void)[] = []
+    public static keydown: string | null = null
+    public static keyup: string | null = null
+    public static click = false
     public static mouseX: number
     public static mouseY: number
 
@@ -13,15 +13,21 @@ export class InputHandler {
 
     public static init() {
         window.addEventListener('keydown', (e) => {
-            InputHandler.keydown.get(e.key)?.()
+            InputHandler.keydown = e.key
+            InputHandler.keyup = null
         })
 
         window.addEventListener('keyup', (e) => {
-            InputHandler.keyup.get(e.key)?.()
+            InputHandler.keydown = null
+            InputHandler.keyup = e.key
         })
 
-        Canvas.canvas.addEventListener('click', () => {
-            InputHandler.click.map((f) => f())
+        Canvas.canvas.addEventListener('mousedown', () => {
+            InputHandler.click = true
+        })
+
+        Canvas.canvas.addEventListener('mouseup', () => {
+            InputHandler.click = false
         })
 
         Canvas.canvas.addEventListener('mousemove', (e) => {
@@ -31,27 +37,15 @@ export class InputHandler {
         })
     }
 
-    public static onKeydown(e: string, f: () => void) {
-        InputHandler.keydown.set(e, f)
+    public static onKeydown(e: string): boolean {
+        return InputHandler.keydown == e
     }
 
-    public static onKeyUp(e: string, f: () => void) {
-        InputHandler.keyup.set(e, f)
+    public static onKeyup(e: string): boolean {
+        return InputHandler.keyup == e
     }
 
-    public static onClick(f: () => void) {
-        InputHandler.click.push(f)
-    }
-
-    public static clearKeydown() {
-        InputHandler.keydown.clear()
-    }
-
-    public static clearKeyUp() {
-        InputHandler.keyup.clear()
-    }
-
-    public static clearMouseClick() {
-        InputHandler.click.splice(0)
+    public static onClick() {
+        return InputHandler.click
     }
 }
