@@ -84,6 +84,7 @@ export class FloorManager {
     }
 
     public initialFloor() {
+        this.countTimeToSpawnFloor = this.timeToSpawnFloor
         this.clear()
         for (let i = 0; i < Canvas.canvas.height; i += this.timeToSpawnFloor) {
             if (i + this.timeToSpawnFloor >= Canvas.canvas.height) {

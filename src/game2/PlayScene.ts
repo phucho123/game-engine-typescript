@@ -1,5 +1,5 @@
 import { Background } from '../engine/components/Background'
-import { InputHandler } from '../engine/input-handler/InputHandler'
+import { InputHandler } from '../engine/input-handler/InputHandler2'
 import { Canvas } from '../engine/render/canvas/Canvas'
 import { Scene } from '../engine/scenes/Scene'
 import { FloorManager } from './FloorManager'
@@ -55,45 +55,38 @@ export class PlayScene extends Scene {
     }
 
     public update(): void {
-        this.floorManager.update()
-        this.floorManager.checkCollide(this.player)
+        if (InputHandler.onKeydown('ArrowLeft')) {
+            this.f1()
+        }
+        if (InputHandler.onKeydown('ArrowRight')) {
+            this.f2()
+        }
+        if (InputHandler.onKeyup('ArrowLeft')) {
+            this.f3()
+        }
+        if (InputHandler.onKeyup('ArrowRight')) {
+            this.f3()
+        }
         super.update()
         this.scoreDisplay.setContent(`Score: ${GameManager.score}`)
         this.highScoreDisplay.setContent(`High Score: ${GameManager.highScore}`)
+        this.floorManager.update()
+        this.floorManager.checkCollide(this.player)
 
         if (this.player.getPos().y + this.player.getHeight() >= Canvas.canvas.height) {
             GameManager.highScore = Math.max(GameManager.score, GameManager.highScore)
-            this.setSleep()
             this.renderer.wakeupScene(2)
+            this.setSleep()
         }
     }
 
     public wakeup(): void {
         super.wakeup()
         this.restart()
-        InputHandler.onKeydown('ArrowLeft', () => {
-            this.player.setFlip(true)
-            this.player.setDirection(-1, 1)
-        })
-
-        InputHandler.onKeydown('ArrowRight', () => {
-            this.player.setFlip(false)
-            this.player.setDirection(1, 1)
-        })
-
-        InputHandler.onKeyUp('ArrowLeft', () => {
-            this.player.setDirection(0, 1)
-        })
-
-        InputHandler.onKeyUp('ArrowRight', () => {
-            this.player.setDirection(0, 1)
-        })
     }
 
     public setSleep(): void {
         super.setSleep()
-        InputHandler.clearKeydown()
-        InputHandler.clearKeyUp()
     }
 
     public draw(): void {
@@ -107,5 +100,19 @@ export class PlayScene extends Scene {
         this.player.setFlip(false)
         this.player.setDirection(0, 1)
         GameManager.score = 0
+    }
+
+    public f1() {
+        this.player.setFlip(true)
+        this.player.setDirection(-1, 1)
+    }
+
+    public f2() {
+        this.player.setFlip(false)
+        this.player.setDirection(1, 1)
+    }
+
+    public f3() {
+        this.player.setDirection(0, 1)
     }
 }

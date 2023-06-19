@@ -3,7 +3,7 @@ import { Images } from '../engine/components/Images'
 import { Scene } from '../engine/scenes/Scene'
 import { Canvas } from '../engine/render/canvas/Canvas'
 import { Renderer } from '../engine/render/Renderer'
-import { InputHandler } from '../engine/input-handler/InputHandler'
+import { InputHandler } from '../engine/input-handler/InputHandler2'
 import { Maths } from '../engine/math/Maths'
 import { Bird } from './Bird'
 
@@ -43,21 +43,25 @@ export class StartScene extends Scene {
         this.pushToSpriteList(this.bird)
     }
 
+    public update(): void {
+        if (InputHandler.onClick()) {
+            this.f1()
+        }
+        super.update()
+    }
+
     public wakeup(): void {
         super.wakeup()
-        InputHandler.onClick(() => {
-            if (
-                Maths.checkPointInRect(InputHandler.mouseX, InputHandler.mouseY, this.startButton)
-            ) {
-                // console.log('hello there')
-                this.setSleep()
-                this.renderer.wakeupScene(1)
-            }
-        })
     }
 
     public setSleep(): void {
         super.setSleep()
-        InputHandler.clearMouseClick()
+    }
+
+    public f1() {
+        if (Maths.checkPointInRect(InputHandler.mouseX, InputHandler.mouseY, this.startButton)) {
+            this.setSleep()
+            this.renderer.wakeupScene(1)
+        }
     }
 }

@@ -1,6 +1,6 @@
 import { Background } from '../engine/components/Background'
 import { Images } from '../engine/components/Images'
-import { InputHandler } from '../engine/input-handler/InputHandler'
+import { InputHandler } from '../engine/input-handler/InputHandler2'
 import { Maths } from '../engine/math/Maths'
 import { Renderer } from '../engine/render/Renderer'
 import { Canvas } from '../engine/render/canvas/Canvas'
@@ -30,21 +30,23 @@ export class StartScene extends Scene {
         this.pushToSpriteList(this.startButton)
     }
 
-    public wakeup(): void {
-        super.wakeup()
-        InputHandler.onClick(() => {
+    public update(): void {
+        super.update()
+        if (InputHandler.onClick()) {
             if (
                 Maths.checkPointInRect(InputHandler.mouseX, InputHandler.mouseY, this.startButton)
             ) {
-                // console.log('hello there')
-                this.setSleep()
                 this.renderer.wakeupScene(1)
+                this.setSleep()
             }
-        })
+        }
+    }
+
+    public wakeup(): void {
+        super.wakeup()
     }
 
     public setSleep(): void {
         super.setSleep()
-        InputHandler.clearMouseClick()
     }
 }

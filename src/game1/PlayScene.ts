@@ -6,7 +6,7 @@ import { Renderer } from '../engine/render/Renderer'
 import { SpikeManager } from './SpikeManager'
 import { Text } from '../engine/components/Text'
 import { GameManager } from './GameManager'
-import { InputHandler } from '../engine/input-handler/InputHandler'
+import { InputHandler } from '../engine/input-handler/InputHandler2'
 
 export class PlayScene extends Scene {
     private background: Background
@@ -44,6 +44,12 @@ export class PlayScene extends Scene {
     }
 
     public update() {
+        if (InputHandler.onClick()) {
+            this.bird.setSpeedY(-3)
+        }
+        if (InputHandler.onKeydown(' ')) {
+            this.bird.setSpeedY(-3)
+        }
         super.update()
         if (this.spikeManager.checkCollide(this.bird)) {
             GameManager.highScore = Math.max(GameManager.score, GameManager.highScore)
@@ -68,17 +74,10 @@ export class PlayScene extends Scene {
     public wakeup(): void {
         super.wakeup()
         this.restart()
-        InputHandler.onKeydown(' ', () => {
-            this.bird.setSpeedY(-3)
-            // console.log('hello there')
-        })
-        InputHandler.onClick(() => this.bird.setSpeedY(-3))
     }
 
     public setSleep(): void {
         super.setSleep()
-        InputHandler.clearKeydown()
-        InputHandler.clearMouseClick()
     }
 
     public restart() {

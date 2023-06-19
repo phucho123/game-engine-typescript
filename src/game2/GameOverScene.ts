@@ -1,6 +1,5 @@
 import { Background } from '../engine/components/Background'
-import { Images } from '../engine/components/Images'
-import { InputHandler } from '../engine/input-handler/InputHandler'
+import { InputHandler } from '../engine/input-handler/InputHandler2'
 import { Renderer } from '../engine/render/Renderer'
 import { Canvas } from '../engine/render/canvas/Canvas'
 import { Scene } from '../engine/scenes/Scene'
@@ -10,7 +9,6 @@ import { GameManager } from './GameManager'
 export class GameOverScene extends Scene {
     private renderer: Renderer
     private background: Background
-    private startButton: Images
     private scoreDisplay: Text
     private highScoreDisplay: Text
 
@@ -44,6 +42,10 @@ export class GameOverScene extends Scene {
     }
 
     public update(): void {
+        if (InputHandler.onClick()) {
+            this.renderer.wakeupScene(1)
+            this.setSleep()
+        }
         super.update()
         this.scoreDisplay.setContent(`Score: ${GameManager.score}`)
         this.highScoreDisplay.setContent(`High Score: ${GameManager.highScore}`)
@@ -51,14 +53,9 @@ export class GameOverScene extends Scene {
 
     public wakeup(): void {
         super.wakeup()
-        InputHandler.onClick(() => {
-            this.setSleep()
-            this.renderer.wakeupScene(1)
-        })
     }
 
     public setSleep(): void {
         super.setSleep()
-        InputHandler.clearMouseClick()
     }
 }

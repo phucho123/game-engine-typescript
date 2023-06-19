@@ -1,10 +1,10 @@
-import { InputHandler } from '../engine/input-handler/InputHandler'
 import { Renderer } from '../engine/render/Renderer'
 import { Canvas } from '../engine/render/canvas/Canvas'
 import { GameEngine } from '../engine/system/GameEngine'
 import { GameOverScene } from './GameOverScene'
 import { PlayScene } from './PlayScene'
 import { StartScene } from './StartScene'
+import { InputHandler } from '../engine/input-handler/InputHandler2'
 
 export class GameManager {
     public static score = 0

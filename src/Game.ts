@@ -1,4 +1,4 @@
-import { GameManager } from './game2/GameManager'
+import { GameManager } from './game1/GameManager'
 
 class Game {
     gameManager: GameManager
