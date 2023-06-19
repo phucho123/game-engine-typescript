@@ -26,8 +26,16 @@ export class Body extends Sprite {
         this.speed.x = speed
     }
 
+    public getSpeedX(): number {
+        return this.speed.x
+    }
+
     public setSpeedY(speed: number) {
         this.speed.y = speed
+    }
+
+    public getSpeedY(): number {
+        return this.speed.y
     }
 
     public setAcceleration(acceleration: number) {

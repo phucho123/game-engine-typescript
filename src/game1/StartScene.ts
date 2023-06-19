@@ -20,7 +20,7 @@ export class StartScene extends Scene {
         this.background = new Background({ x: 0, y: 0 }, '../assets/images/background-night.png', 0)
         this.background.setHeight(600)
         this.background.setWidth(400)
-        this.background.setScrollSpeed(2)
+        this.background.setScrollSpeedX(2)
 
         this.bird = new Bird(
             { x: Canvas.canvas.width / 2 - 30, y: Canvas.canvas.height / 2 },
@@ -38,9 +38,9 @@ export class StartScene extends Scene {
         )
         this.startButton.setScale(0.1)
 
-        this.push(this.background)
-        this.push(this.startButton)
-        this.push(this.bird)
+        this.pushToSpriteList(this.background)
+        this.pushToSpriteList(this.startButton)
+        this.pushToSpriteList(this.bird)
     }
 
     public wakeup(): void {
@@ -49,7 +49,7 @@ export class StartScene extends Scene {
             if (
                 Maths.checkPointInRect(InputHandler.mouseX, InputHandler.mouseY, this.startButton)
             ) {
-                console.log('hello there')
+                // console.log('hello there')
                 this.setSleep()
                 this.renderer.wakeupScene(1)
             }

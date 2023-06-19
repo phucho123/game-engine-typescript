@@ -20,11 +20,11 @@ export class InputHandler {
             InputHandler.keyup.get(e.key)?.()
         })
 
-        window.addEventListener('click', () => {
+        Canvas.canvas.addEventListener('click', () => {
             InputHandler.click.map((f) => f())
         })
 
-        window.addEventListener('mousemove', (e) => {
+        Canvas.canvas.addEventListener('mousemove', (e) => {
             const rect = Canvas.canvas.getBoundingClientRect()
             InputHandler.mouseX = e.clientX - rect.left
             InputHandler.mouseY = e.clientY - rect.top

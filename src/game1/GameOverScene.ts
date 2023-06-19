@@ -40,10 +40,10 @@ export class GameOverScene extends Scene {
         this.background.setHeight(600)
         this.background.setWidth(400)
 
-        this.push(this.gameOverImage)
-        this.push(this.scoreDislay)
-        this.push(this.highScoreDisplay)
-        this.push(this.background)
+        this.pushToSpriteList(this.gameOverImage)
+        this.pushToSpriteList(this.scoreDislay)
+        this.pushToSpriteList(this.highScoreDisplay)
+        this.pushToSpriteList(this.background)
     }
 
     public draw() {

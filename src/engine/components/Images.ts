@@ -91,6 +91,7 @@ export class Images {
 
     public setHeight(height: number): void {
         this.height = height
+        this.updateCenter()
     }
 
     public rotate(angle: number) {

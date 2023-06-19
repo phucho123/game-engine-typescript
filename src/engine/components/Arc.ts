@@ -1,3 +1,4 @@
+import { Canvas } from '../render/canvas/Canvas'
 import { Shape } from './Shape'
 
 export class Arc extends Shape {
@@ -10,34 +11,34 @@ export class Arc extends Shape {
         this.color = 'black'
     }
 
-    public fill(ctx: CanvasRenderingContext2D | null): void {
-        if (ctx) {
-            ctx.save()
-            ctx.translate(this.pos.x, this.pos.y)
-            ctx.rotate(this.angle)
-            ctx.fillStyle = this.color
-            ctx.arc(
+    public fill(): void {
+        if (Canvas.ctx) {
+            Canvas.ctx.save()
+            Canvas.ctx.translate(this.pos.x, this.pos.y)
+            Canvas.ctx.rotate(this.angle)
+            Canvas.ctx.fillStyle = this.color
+            Canvas.ctx.arc(
                 this.pos.x,
                 this.pos.y,
                 this.radius * this.scale,
                 this.startAngle,
                 this.endAngle
             )
-            ctx.fill()
-            ctx.restore()
+            Canvas.ctx.fill()
+            Canvas.ctx.restore()
         }
     }
 
-    public arc(ctx: CanvasRenderingContext2D | null): void {
-        if (ctx) {
-            ctx.save()
-            ctx.translate(this.pos.x, this.pos.y)
-            ctx.rotate(this.angle)
-            ctx.beginPath()
-            ctx.strokeStyle = this.color
-            ctx.arc(0, 0, this.radius * this.scale, this.startAngle, this.endAngle)
-            ctx.stroke()
-            ctx.restore()
+    public arc(): void {
+        if (Canvas.ctx) {
+            Canvas.ctx.save()
+            Canvas.ctx.translate(this.pos.x, this.pos.y)
+            Canvas.ctx.rotate(this.angle)
+            Canvas.ctx.beginPath()
+            Canvas.ctx.strokeStyle = this.color
+            Canvas.ctx.arc(0, 0, this.radius * this.scale, this.startAngle, this.endAngle)
+            Canvas.ctx.stroke()
+            Canvas.ctx.restore()
         }
     }
 

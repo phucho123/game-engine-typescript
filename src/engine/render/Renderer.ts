@@ -11,18 +11,20 @@ export class Renderer {
 
     public draw(): void {
         if (this.ctx) {
-            this.sceneList.map((scene) => {
-                if (!scene.sleep) {
+            for (const scene of this.sceneList) {
+                if (!scene.isSleep()) {
                     scene.draw()
                 }
-            })
+            }
         }
     }
 
     public update() {
-        this.sceneList.map((scene) => {
-            if (!scene.sleep) scene.update()
-        })
+        for (const scene of this.sceneList) {
+            if (!scene.isSleep()) {
+                scene.update()
+            }
+        }
     }
 
     public push(scene: Scene) {

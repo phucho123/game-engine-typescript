@@ -4,17 +4,18 @@ import { Canvas } from '../render/canvas/Canvas'
 export class Rectangle extends Shape {
     private width = 0
     private height = 0
+    private center: Vector = { x: 0, y: 0 }
 
     constructor(pos: Vector, color: string, drawOrder: number) {
         super(pos, color, drawOrder)
-        this.color = 'black'
+        this.updateCenter()
     }
 
     public fill(): void {
         if (Canvas.ctx) {
             Canvas.ctx.fillStyle = this.color
             Canvas.ctx.save()
-            Canvas.ctx.translate(this.pos.x, this.pos.y)
+            Canvas.ctx.translate(this.center.x, this.center.y)
             Canvas.ctx.rotate(this.angle)
             Canvas.ctx.fillRect(
                 -(this.width * this.scale) / 2,
@@ -31,7 +32,7 @@ export class Rectangle extends Shape {
             Canvas.ctx.beginPath()
             Canvas.ctx.strokeStyle = this.color
             Canvas.ctx.save()
-            Canvas.ctx.translate(this.pos.x, this.pos.y)
+            Canvas.ctx.translate(this.center.x, this.center.y)
             Canvas.ctx.rotate(this.angle)
             Canvas.ctx.rect(
                 -(this.width * this.scale) / 2,
@@ -44,6 +45,10 @@ export class Rectangle extends Shape {
         }
     }
 
+    public draw(): void {
+        this.fill()
+    }
+
     public getPos(): Vector {
         return this.pos
     }
@@ -54,6 +59,7 @@ export class Rectangle extends Shape {
 
     public setWidth(width: number): void {
         this.width = width * this.scale
+        this.updateCenter()
     }
 
     public getHeight(): number {
@@ -62,5 +68,21 @@ export class Rectangle extends Shape {
 
     public setHeight(height: number): void {
         this.height = height * this.scale
+        this.updateCenter()
+    }
+
+    public updateCenter() {
+        this.center.x = this.pos.x + (this.width * this.scale) / 2
+        this.center.y = this.pos.y + (this.height * this.scale) / 2
+    }
+
+    public getCenter(): Vector {
+        return this.center
+    }
+
+    public setPos(x: number, y: number) {
+        this.pos.x = x
+        this.pos.y = y
+        this.updateCenter()
     }
 }

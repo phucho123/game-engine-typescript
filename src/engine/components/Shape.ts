@@ -29,6 +29,10 @@ export class Shape {
         return this.drawOrder
     }
 
+    public setDrawOrder(drawOrder: number) {
+        this.drawOrder = drawOrder
+    }
+
     public update() {
         ///
     }

@@ -31,14 +31,14 @@ export class PlayScene extends Scene {
         this.scoreDisplay = new Text(
             { x: Canvas.canvas.width / 2, y: Canvas.canvas.height / 2 },
             `${GameManager.score}`,
-            '30px Audiowide',
+            '60px Audiowide',
             'white',
             1
         )
 
-        this.push(this.background)
-        this.push(this.bird)
-        this.push(this.scoreDisplay)
+        this.pushToSpriteList(this.background)
+        this.pushToSpriteList(this.bird)
+        this.pushToSpriteList(this.scoreDisplay)
 
         this.spikeManager.createVerticalSpike()
     }
@@ -49,15 +49,14 @@ export class PlayScene extends Scene {
             GameManager.highScore = Math.max(GameManager.score, GameManager.highScore)
             this.setSleep()
             this.renderer.wakeupScene(2)
-        }
-        if (this.bird.getPos().x <= 0) {
+        } else if (this.bird.getPos().x <= 0) {
+            GameManager.score++
+            this.scoreDisplay.setContent(GameManager.score.toString())
             this.spikeManager.createRightSpike()
-            GameManager.score++
-            this.scoreDisplay.setContent(GameManager.score.toString())
         } else if (this.bird.getPos().x + this.bird.getWidth() >= Canvas.canvas.width) {
-            this.spikeManager.createLeftSpike()
             GameManager.score++
             this.scoreDisplay.setContent(GameManager.score.toString())
+            this.spikeManager.createLeftSpike()
         }
     }
 
@@ -71,7 +70,7 @@ export class PlayScene extends Scene {
         this.restart()
         InputHandler.onKeydown(' ', () => {
             this.bird.setSpeedY(-3)
-            console.log('hello there')
+            // console.log('hello there')
         })
         InputHandler.onClick(() => this.bird.setSpeedY(-3))
     }

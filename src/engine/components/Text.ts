@@ -37,6 +37,10 @@ export class Text {
         return this.drawOrder
     }
 
+    public setDrawOrder(drawOrder: number) {
+        this.drawOrder = drawOrder
+    }
+
     public update() {
         ///
     }

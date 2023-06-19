@@ -1,5 +1,5 @@
 export class Timer {
-    public static deltaTime = 0
+    public static deltaTime = 1
     private clock = Date.now()
     constructor() {
         ////
