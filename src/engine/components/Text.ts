@@ -31,7 +31,7 @@ export class Text extends GameObject {
         this.pos.y = y
     }
 
-    public setContent(content: string) {
+    public setContent(content: string): void {
         this.content = content
     }
 
@@ -39,11 +39,11 @@ export class Text extends GameObject {
         return this.drawOrder
     }
 
-    public setDrawOrder(drawOrder: number) {
+    public setDrawOrder(drawOrder: number): void {
         this.drawOrder = drawOrder
     }
 
-    public update() {
+    public update(): void {
         ///
     }
 }

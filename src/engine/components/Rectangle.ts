@@ -71,7 +71,7 @@ export class Rectangle extends Shape {
         this.updateCenter()
     }
 
-    public updateCenter() {
+    public updateCenter(): void {
         this.center.x = this.pos.x + (this.width * this.scale) / 2
         this.center.y = this.pos.y + (this.height * this.scale) / 2
     }
@@ -80,7 +80,7 @@ export class Rectangle extends Shape {
         return this.center
     }
 
-    public setPos(x: number, y: number) {
+    public setPos(x: number, y: number): void {
         this.pos.x = x
         this.pos.y = y
         this.updateCenter()

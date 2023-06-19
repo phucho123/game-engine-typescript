@@ -13,7 +13,7 @@ export class Triangle extends Shape {
         this.p2 = p2
         this.p3 = p3
     }
-    public draw() {
+    public draw(): void {
         if (Canvas.ctx) {
             Canvas.ctx.beginPath()
             Canvas.ctx.fillStyle = this.color
@@ -23,13 +23,13 @@ export class Triangle extends Shape {
             Canvas.ctx.fill()
         }
     }
-    public setColor(color: string) {
+    public setColor(color: string): void {
         this.color = color
     }
-    public setDrawOrder(drawOrder: number) {
+    public setDrawOrder(drawOrder: number): void {
         this.drawOrder = drawOrder
     }
-    public update() {
+    public update(): void {
         ///
     }
 }

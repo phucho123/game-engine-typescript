@@ -9,7 +9,7 @@ export class Maths {
         ///
     }
 
-    static checkPointInRect(x: number, y: number, rect: Sprite | BaseImage) {
+    public static checkPointInRect(x: number, y: number, rect: Sprite | BaseImage): boolean {
         const diff_x = Math.abs(x - rect.getCenter().x)
         const diff_y = Math.abs(y - rect.getCenter().y)
 
@@ -18,7 +18,7 @@ export class Maths {
         return false
     }
 
-    static intersects(
+    public static intersects(
         a: number,
         b: number,
         c: number,
@@ -27,7 +27,7 @@ export class Maths {
         q: number,
         r: number,
         s: number
-    ) {
+    ): boolean {
         const det = (c - a) * (s - q) - (r - p) * (d - b)
         if (det === 0) {
             return false

@@ -71,6 +71,7 @@ export class SpikeManager {
     }
 
     public update(): void {
+        this.coin.update()
         this.spikeList.map((spike) => {
             spike.update()
         })
@@ -96,14 +97,14 @@ export class SpikeManager {
         return false
     }
 
-    public clear() {
+    public clear(): void {
         while (this.spikeList.length) {
             const spike = this.spikeList.shift()
             if (spike) this.extraSpikeList.push(spike)
         }
     }
 
-    public createLeftSpike() {
+    public createLeftSpike(): void {
         this.clear()
         this.coin.setDrawable(false)
         let numSpike = Math.floor(Math.random() * 7) + 4
@@ -125,7 +126,6 @@ export class SpikeManager {
                 const tmp = Math.floor(Math.random() * 30) % 5
                 if (!this.coin.getDrawable() && tmp == 1) {
                     this.coin.setPos(0, i - this.spikeSize)
-                    // console.log('create coin')
                     this.coin.setDrawable(true)
                 }
                 prev = 0
@@ -133,7 +133,7 @@ export class SpikeManager {
         }
     }
 
-    public createRightSpike() {
+    public createRightSpike(): void {
         this.clear()
         this.coin.setDrawable(false)
         let numSpike = Math.floor(Math.random() * 7) + 4
@@ -160,7 +160,6 @@ export class SpikeManager {
                 const tmp = Math.floor(Math.random() * 30) % 5
                 if (!this.coin.getDrawable() && tmp == 1) {
                     this.coin.setPos(this.canvasWidth - this.coin.getWidth(), i - this.spikeSize)
-                    // console.log('create coin')
                     this.coin.setDrawable(true)
                 }
                 prev = 0
@@ -168,7 +167,7 @@ export class SpikeManager {
         }
     }
 
-    public createVerticalSpike() {
+    public createVerticalSpike(): void {
         for (let i = this.spikeSize; i < this.canvasWidth; i += this.spikeSize * 2) {
             this.verticalSpikeList.push(
                 new Triangle(

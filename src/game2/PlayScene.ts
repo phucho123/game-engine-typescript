@@ -102,17 +102,17 @@ export class PlayScene extends Scene {
         GameManager.score = 0
     }
 
-    public f1() {
+    public f1(): void {
         this.player.setFlip(true)
         this.player.setDirection(-1, 1)
     }
 
-    public f2() {
+    public f2(): void {
         this.player.setFlip(false)
         this.player.setDirection(1, 1)
     }
 
-    public f3() {
+    public f3(): void {
         this.player.setDirection(0, 1)
     }
 }

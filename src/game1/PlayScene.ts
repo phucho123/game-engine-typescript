@@ -43,7 +43,7 @@ export class PlayScene extends Scene {
         this.spikeManager.createVerticalSpike()
     }
 
-    public update() {
+    public update(): void {
         if (InputHandler.onClick()) {
             this.bird.setSpeedY(-3)
         }
@@ -51,6 +51,7 @@ export class PlayScene extends Scene {
             this.bird.setSpeedY(-3)
         }
         super.update()
+        this.spikeManager.update()
         if (this.spikeManager.checkCollide(this.bird)) {
             GameManager.highScore = Math.max(GameManager.score, GameManager.highScore)
             this.setSleep()
@@ -80,7 +81,7 @@ export class PlayScene extends Scene {
         super.setSleep()
     }
 
-    public restart() {
+    public restart(): void {
         this.bird.setPos(300, 200)
         this.bird.setFlip(false)
         this.bird.setDirection(1, 1)

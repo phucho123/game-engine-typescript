@@ -5,11 +5,12 @@ import { Timer } from '../system/Timer'
 export class Background extends BaseImage {
     private scrollSpeedX = 0
     private scrollSpeedY = 0
+
     constructor(pos: Vector, src: string, drawOrder: number) {
         super(pos, src, drawOrder)
     }
 
-    public draw() {
+    public draw(): void {
         if (Canvas.ctx) {
             if (this.scrollSpeedX != 0) {
                 Canvas.ctx.drawImage(
@@ -73,7 +74,7 @@ export class Background extends BaseImage {
         }
     }
 
-    public update() {
+    public update(): void {
         this.pos.x -= this.scrollSpeedX * Timer.deltaTime
         if (this.pos.x <= -this.getWidth()) this.pos.x = 0
         else if (this.pos.x >= Canvas.canvas.width) this.pos.x = 0
@@ -83,11 +84,11 @@ export class Background extends BaseImage {
         else if (this.pos.y >= Canvas.canvas.height) this.pos.y = 0
     }
 
-    public setScrollSpeedX(speed: number) {
+    public setScrollSpeedX(speed: number): void {
         this.scrollSpeedX = speed
     }
 
-    public setScrollSpeedY(speed: number) {
+    public setScrollSpeedY(speed: number): void {
         this.scrollSpeedY = speed
     }
 }

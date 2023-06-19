@@ -7,7 +7,8 @@ export class Physics {
     constructor() {
         ////
     }
-    static RectanglecollideRectangle(
+
+    public static RectanglecollideRectangle(
         sprite1: Sprite | Rectangle,
         sprite2: Sprite | Rectangle
     ): boolean {
@@ -24,7 +25,7 @@ export class Physics {
         return false
     }
 
-    static TriaglecollideRectangle(sprite1: Triangle, sprite2: Sprite): boolean {
+    public static TriaglecollideRectangle(sprite1: Triangle, sprite2: Sprite): boolean {
         const p1 = Maths.intersects(
             sprite1.p1.x,
             sprite1.p1.y,

@@ -18,11 +18,11 @@ export class Floor extends Rectangle {
         this.updateCenter()
     }
 
-    public setSpeed(speed: number) {
+    public setSpeed(speed: number): void {
         this.speed = speed
     }
 
-    public setDir(dir: number) {
+    public setDir(dir: number): void {
         this.dir = dir
     }
 }

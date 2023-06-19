@@ -11,7 +11,7 @@ export class InputHandler {
         ////
     }
 
-    public static init() {
+    public static init(): void {
         window.addEventListener('keydown', (e) => {
             InputHandler.keydown = e.key
             InputHandler.keyup = null
@@ -45,7 +45,7 @@ export class InputHandler {
         return InputHandler.keyup == e
     }
 
-    public static onClick() {
+    public static onClick(): boolean {
         return InputHandler.click
     }
 }

@@ -12,11 +12,11 @@ export class GameEngine {
         this.timer = new Timer()
     }
 
-    public run() {
+    public run(): void {
         requestAnimationFrame(() => this.loop())
     }
 
-    public loop() {
+    public loop(): void {
         this.timer.run()
         this.sceneManager.update()
         this.renderer.draw()

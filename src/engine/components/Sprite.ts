@@ -50,21 +50,11 @@ export class Sprite extends BaseImage {
                 (this.width * this.scale) / this.maxFrame,
                 this.height * this.scale
             )
-
-            // Canvas.ctx.beginPath()
-            // Canvas.ctx.strokeStyle = 'red'
-            // Canvas.ctx.rect(
-            //     (-this.width * this.scale) / (2 * this.maxFrame),
-            //     (-this.height * this.scale) / 2,
-            //     (this.width * this.scale) / this.maxFrame,
-            //     this.height * this.scale
-            // )
-            // Canvas.ctx.stroke()
             Canvas.ctx.restore()
         }
     }
 
-    public setAnimationSpeed(speed: number) {
+    public setAnimationSpeed(speed: number): void {
         this.animationTime /= speed
     }
 
@@ -85,5 +75,19 @@ export class Sprite extends BaseImage {
     public setScale(scale: number): void {
         this.scale = scale
         this.updateCenter()
+    }
+
+    public drawBox(): void {
+        if (Canvas.ctx) {
+            Canvas.ctx.beginPath()
+            Canvas.ctx.strokeStyle = 'red'
+            Canvas.ctx.rect(
+                (-this.width * this.scale) / (2 * this.maxFrame),
+                (-this.height * this.scale) / 2,
+                (this.width * this.scale) / this.maxFrame,
+                this.height * this.scale
+            )
+            Canvas.ctx.stroke()
+        }
     }
 }

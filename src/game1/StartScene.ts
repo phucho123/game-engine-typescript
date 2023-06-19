@@ -58,7 +58,7 @@ export class StartScene extends Scene {
         super.setSleep()
     }
 
-    public f1() {
+    public f1(): void {
         if (Maths.checkPointInRect(InputHandler.mouseX, InputHandler.mouseY, this.startButton)) {
             this.setSleep()
             this.sceneManager.wakeupScene(1)

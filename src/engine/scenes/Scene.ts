@@ -3,11 +3,12 @@ import { GameObject } from '../components/GameObject'
 export class Scene {
     protected gameObjectList: GameObject[]
     protected needToSort: boolean
-    protected sleep = true
+    protected sleep: boolean
 
     constructor() {
         this.gameObjectList = []
         this.needToSort = false
+        this.sleep = true
     }
 
     public addGameObject(sprite: GameObject): void {
@@ -38,19 +39,19 @@ export class Scene {
         })
     }
 
-    public requestSort() {
+    public requestSort(): void {
         this.needToSort = true
     }
 
-    public restart() {
+    public restart(): void {
         ////
     }
 
-    public wakeup() {
+    public wakeup(): void {
         this.sleep = false
     }
 
-    public setSleep() {
+    public setSleep(): void {
         this.sleep = true
     }
 
@@ -58,7 +59,7 @@ export class Scene {
         return this.sleep
     }
 
-    public setDrawOrder(sprite: GameObject, drawOrder: number) {
+    public setDrawOrder(sprite: GameObject, drawOrder: number): void {
         const tmp = this.gameObjectList.filter((obj) => obj == sprite)
         tmp[0].setDrawOrder(drawOrder)
         this.needToSort = true

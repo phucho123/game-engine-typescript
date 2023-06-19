@@ -16,15 +16,15 @@ export class Shape extends GameObject {
         this.drawOrder = drawOrder
     }
 
-    public setColor(color: string) {
+    public setColor(color: string): void {
         this.color = color
     }
 
-    public setScale(scale: number) {
+    public setScale(scale: number): void {
         this.scale = scale
     }
 
-    public rotate(angle: number) {
+    public rotate(angle: number): void {
         this.angle = angle
     }
 
@@ -32,15 +32,15 @@ export class Shape extends GameObject {
         return this.drawOrder
     }
 
-    public setDrawOrder(drawOrder: number) {
+    public setDrawOrder(drawOrder: number): void {
         this.drawOrder = drawOrder
     }
 
-    public update() {
+    public update(): void {
         ///
     }
 
-    public draw() {
+    public draw(): void {
         ////
     }
 }

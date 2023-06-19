@@ -6,7 +6,7 @@ export class Canvas {
         ////
     }
 
-    public static init(width: number, height: number) {
+    public static init(width: number, height: number): void {
         Canvas.canvas = document.createElement('canvas') as HTMLCanvasElement
         Canvas.canvas.id = 'my-canvas'
         Canvas.canvas.width = width

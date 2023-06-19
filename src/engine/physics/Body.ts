@@ -22,7 +22,7 @@ export class Body extends Sprite {
         this.direction.y = ypos / dist
     }
 
-    public setSpeedX(speed: number) {
+    public setSpeedX(speed: number): void {
         this.speed.x = speed
     }
 
@@ -30,7 +30,7 @@ export class Body extends Sprite {
         return this.speed.x
     }
 
-    public setSpeedY(speed: number) {
+    public setSpeedY(speed: number): void {
         this.speed.y = speed
     }
 
@@ -38,15 +38,16 @@ export class Body extends Sprite {
         return this.speed.y
     }
 
-    public setAcceleration(acceleration: number) {
+    public setAcceleration(acceleration: number): void {
         this.acceleration = acceleration
     }
 
-    public setGravity(gravity: number) {
+    public setGravity(gravity: number): void {
         this.gravity = gravity
     }
 
-    public update() {
+    public update(): void {
+        super.update()
         this.speed.x += this.acceleration * Timer.deltaTime
         this.speed.y += (this.gravity + this.acceleration) * Timer.deltaTime
         this.pos.x += this.direction.x * this.speed.x * Timer.deltaTime

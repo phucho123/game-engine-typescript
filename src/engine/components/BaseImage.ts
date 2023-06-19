@@ -50,20 +50,11 @@ export class BaseImage extends GameObject {
                 this.width * this.scale,
                 this.height * this.scale
             )
-            // ctx.beginPath()
-            // ctx.strokeStyle = 'red'
-            // ctx.rect(
-            //     (-this.width * this.scale) / 2,
-            //     (-this.height * this.scale) / 2,
-            //     this.width * this.scale,
-            //     this.height * this.scale
-            // )
-            // ctx.stroke()
             Canvas.ctx.restore()
         }
     }
 
-    public setScale(scale: number) {
+    public setScale(scale: number): void {
         this.scale = scale
         this.updateCenter()
     }
@@ -72,7 +63,7 @@ export class BaseImage extends GameObject {
         return this.pos
     }
 
-    public setPos(x: number, y: number) {
+    public setPos(x: number, y: number): void {
         this.pos.x = x
         this.pos.y = y
         this.updateCenter()
@@ -96,7 +87,7 @@ export class BaseImage extends GameObject {
         this.updateCenter()
     }
 
-    public rotate(angle: number) {
+    public rotate(angle: number): void {
         this.angle = Maths.deg2rad * angle
     }
 
@@ -112,7 +103,7 @@ export class BaseImage extends GameObject {
         return this.drawOrder
     }
 
-    public update() {
+    public update(): void {
         ///
     }
 
@@ -124,7 +115,7 @@ export class BaseImage extends GameObject {
         return this.center
     }
 
-    public updateCenter() {
+    public updateCenter(): void {
         this.center.x = this.pos.x + (this.width * this.scale) / 2
         this.center.y = this.pos.y + (this.height * this.scale) / 2
     }
@@ -133,11 +124,25 @@ export class BaseImage extends GameObject {
         this.flip = !this.flip
     }
 
-    public setFlip(state: boolean) {
+    public setFlip(state: boolean): void {
         this.flip = state
     }
 
     public getDrawable(): boolean {
         return this.drawable
+    }
+
+    public drawBox(): void {
+        if (Canvas.ctx) {
+            Canvas.ctx.beginPath()
+            Canvas.ctx.strokeStyle = 'red'
+            Canvas.ctx.rect(
+                (-this.width * this.scale) / 2,
+                (-this.height * this.scale) / 2,
+                this.width * this.scale,
+                this.height * this.scale
+            )
+            Canvas.ctx.stroke()
+        }
     }
 }

@@ -6,6 +6,7 @@ import { PlayScene } from './PlayScene'
 export class Player extends Body {
     public fall: boolean
     public preY: number
+
     constructor(pos: Vector, src: string, drawOrder: number) {
         super(pos, src, 1, drawOrder)
         this.setGravity(0.1)

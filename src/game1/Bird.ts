@@ -11,7 +11,7 @@ export class Bird extends Body {
         this.setFlip(false)
     }
 
-    public update() {
+    public update(): void {
         super.update()
         if (this.pos.x + this.getWidth() >= Canvas.canvas.width) {
             this.setFlip(true)

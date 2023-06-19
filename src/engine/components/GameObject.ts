@@ -7,7 +7,7 @@ export class GameObject {
         ///
     }
 
-    public setScale(_scale: number) {
+    public setScale(_scale: number): void {
         ///
     }
 
@@ -16,7 +16,7 @@ export class GameObject {
         return { x: 0, y: 0 }
     }
 
-    public setPos(_x: number, _y: number) {
+    public setPos(_x: number, _y: number): void {
         ////
     }
 
@@ -36,7 +36,7 @@ export class GameObject {
         ///
     }
 
-    public rotate(_angle: number) {
+    public rotate(_angle: number): void {
         ///
     }
 
@@ -52,7 +52,7 @@ export class GameObject {
         return 0
     }
 
-    public update() {
+    public update(): void {
         ///
     }
 
@@ -64,7 +64,7 @@ export class GameObject {
         return { x: 0, y: 0 }
     }
 
-    public updateCenter() {
+    public updateCenter(): void {
         ///
     }
 
@@ -72,7 +72,7 @@ export class GameObject {
         ///
     }
 
-    public setFlip(_state: boolean) {
+    public setFlip(_state: boolean): void {
         ///
     }
 

@@ -13,7 +13,7 @@ export class FloorManager {
         ///
     }
 
-    public createFloor(x: number, y: number, color: string, speed: number) {
+    public createFloor(x: number, y: number, color: string, speed: number): void {
         let newFloor
         if (this.extraFloorList.length > 0) {
             newFloor = this.extraFloorList.shift()
@@ -33,13 +33,13 @@ export class FloorManager {
         }
     }
 
-    public draw() {
+    public draw(): void {
         for (const floor of this.floorList) {
             floor.draw()
         }
     }
 
-    public update() {
+    public update(): void {
         for (const floor of this.floorList) {
             floor.setPos(floor.getPos().x, floor.getPos().y + PlayScene.scroll)
             if (floor.getPos().y >= Canvas.canvas.height) {
@@ -71,7 +71,7 @@ export class FloorManager {
         }
     }
 
-    public checkCollide(player: Player) {
+    public checkCollide(player: Player): void {
         this.floorList.map((floor) => {
             if (
                 Physics.RectanglecollideRectangle(player, floor) &&
@@ -83,7 +83,7 @@ export class FloorManager {
         })
     }
 
-    public initialFloor() {
+    public initialFloor(): void {
         this.countTimeToSpawnFloor = this.timeToSpawnFloor
         this.clear()
         for (let i = 0; i < Canvas.canvas.height; i += this.timeToSpawnFloor) {
@@ -102,7 +102,7 @@ export class FloorManager {
         this.floorList.reverse()
     }
 
-    public clear() {
+    public clear(): void {
         while (this.floorList.length) {
             const removeFloor = this.floorList.shift()
             if (removeFloor != undefined) {

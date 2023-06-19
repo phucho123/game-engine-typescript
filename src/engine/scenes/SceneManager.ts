@@ -2,11 +2,12 @@ import { Canvas } from '../render/canvas/Canvas'
 import { Scene } from './Scene'
 
 export class SceneManager {
-    private scenes: Scene[] = []
+    private scenes: Scene[]
     private ctx: CanvasRenderingContext2D | null
 
     constructor() {
         this.ctx = Canvas.ctx
+        this.scenes = []
     }
 
     public draw(): void {
@@ -19,7 +20,7 @@ export class SceneManager {
         }
     }
 
-    public update() {
+    public update(): void {
         for (const scene of this.scenes) {
             if (!scene.isSleep()) {
                 scene.update()
@@ -27,15 +28,15 @@ export class SceneManager {
         }
     }
 
-    public push(scene: Scene) {
+    public push(scene: Scene): void {
         this.scenes.push(scene)
     }
 
-    public sleepScene(index: number) {
+    public sleepScene(index: number): void {
         this.scenes[index].setSleep()
     }
 
-    public wakeupScene(index: number) {
+    public wakeupScene(index: number): void {
         this.scenes[index].wakeup()
     }
 

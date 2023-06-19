@@ -46,7 +46,7 @@ export class GameOverScene extends Scene {
         this.addGameObject(this.background)
     }
 
-    public update() {
+    public update(): void {
         if (InputHandler.onClick()) {
             this.setSleep()
             this.sceneManager.wakeupScene(1)
