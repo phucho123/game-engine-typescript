@@ -61,7 +61,7 @@ export class SpikeManager {
 
     public deleteSpike(index: number): void {
         const obstacle = this.spikeList.splice(index, 1)[0]
-        if (obstacle) this.spikeList.push(obstacle)
+        if (obstacle) this.extraSpikeList.push(obstacle)
     }
 
     public draw(): void {
